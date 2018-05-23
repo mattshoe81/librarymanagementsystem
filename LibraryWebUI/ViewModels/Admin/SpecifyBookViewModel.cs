@@ -9,6 +9,8 @@ namespace LibraryWebUI.ViewModels.Admin
     {
 		public string ErrorMessage { get; set; } = "";
 
+		public string Action { get; set; }
+
 		public SpecifyBookViewModel() { }
 
 		public SpecifyBookViewModel(string errorMessage) {

@@ -1,2 +1,3 @@
-﻿SELECT *
-FROM Member_Data
+﻿USE Library
+
+EXEC GetMembers 

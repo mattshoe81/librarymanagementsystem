@@ -9,5 +9,7 @@ namespace LibraryWebUI.ViewModels.Admin
     public class BookDetailsViewModel
     {
 		public IBook Book { get; set; }
+
+		public string Action { get; set; }
     }
 }

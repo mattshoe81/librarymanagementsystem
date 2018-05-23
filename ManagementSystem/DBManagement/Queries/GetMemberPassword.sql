@@ -1,3 +1,3 @@
-﻿SELECT [Password]
-FROM Member_Data
-WHERE (Email = @email)
+﻿USE Library
+
+EXEC GetMemberPassword @email

@@ -1,3 +1,3 @@
-﻿SELECT *
-FROM Inventory_Books
-WHERE (Library_ID = @libraryID)
+﻿USE Library
+
+EXEC GetBookByID @libraryID

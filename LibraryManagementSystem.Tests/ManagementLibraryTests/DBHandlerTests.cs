@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using CoreLibrary.Searching;
 using CoreLibrary.Members;
+using CoreLibrary;
 
 namespace LibraryManagementSystem.Tests.ManagementLibraryTests
 {
@@ -43,7 +44,7 @@ namespace LibraryManagementSystem.Tests.ManagementLibraryTests
 				LibraryID = 0,
 				Title = "Book 1",
 				Author = "Author 1",
-				Format = CoreLibrary.Media.PAPERBACK,
+				Format = MediaFormat.PAPERBACK,
 				ISBN10 = "0000000001",
 				ISBN13 = "0000000000001",
 				Length = 99,

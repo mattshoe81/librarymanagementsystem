@@ -1,2 +1,3 @@
-﻿SELECT *
-FROM Admin_Data
+﻿USE Library
+
+EXEC GetAdmins

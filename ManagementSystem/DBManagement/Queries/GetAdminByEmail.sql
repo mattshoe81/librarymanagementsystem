@@ -1,3 +1,3 @@
-﻿SELECT *
-FROM Admin_Data
-WHERE (Email = @email)
+﻿USE Library
+
+EXEC GetAdminByEmail @email
