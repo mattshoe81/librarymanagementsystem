@@ -1,0 +1,13 @@
+﻿
+
+@{ ViewData["Title"] = "Home"; }
+
+<h1 class="text-center">Welcome to my personal library portal!</h1>
+<div class="text-center" style="margin-top:20px">
+	<form>
+		<input type="submit" class="btn-primary" asp-controller="Admin" asp-action="AdminLogin" value="Administrator Login" />
+		<input type="submit" class="btn-primary" asp-controller="Member" asp-action="MemberLogin" value="Member Login" />
+		<input type="submit" class="btn-primary" asp-controller="Account" asp-action="RegisterUser" value="Create Account" />
+	</form>
+	
+</div>

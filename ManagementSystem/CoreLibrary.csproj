@@ -1,0 +1,76 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <SSDTUnitTestPath Condition="'$(SSDTUnitTestPath)' == ''">$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB</SSDTUnitTestPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SSDTPath Condition="'$(SSDTPath)' == ''">$(VsInstallRoot)\Common7\IDE\Extensions\Microsoft\SQLDB\DAC\130</SSDTPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="DBManagement\Queries\AddNewBook.sql" />
+    <None Remove="DBManagement\Queries\BookAvailability.sql" />
+    <None Remove="DBManagement\Queries\CheckLibraryIDExists.sql" />
+    <None Remove="DBManagement\Queries\CheckoutBook.sql" />
+    <None Remove="DBManagement\Queries\GetAdminByEmail.sql" />
+    <None Remove="DBManagement\Queries\GetAdmins.sql" />
+    <None Remove="DBManagement\Queries\GetBookByID.sql" />
+    <None Remove="DBManagement\Queries\GetFormat.sql" />
+    <None Remove="DBManagement\Queries\GetMemberPassword.sql" />
+    <None Remove="DBManagement\Queries\GetMembers.sql" />
+    <None Remove="DBManagement\Queries\GetNewLibraryID.sql" />
+    <None Remove="DBManagement\Queries\RemoveBook.sql" />
+    <None Remove="DBManagement\Queries\ReturnBook.sql" />
+    <None Remove="DBManagement\Queries\UpdateBook.sql" />
+    <None Remove="DBManagement\Queries\View_Media_Details.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="DBManagement\Queries\AddNewBook.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\BookAvailability.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\CheckLibraryIDExists.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\CheckoutBook.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\GetAdminByEmail.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\GetAdmins.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\GetBookByID.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\GetFormat.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\GetMemberPassword.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\GetMembers.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\GetNewLibraryID.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\RemoveBook.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\ReturnBook.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\UpdateBook.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\View_Media_Details.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Data">
+      <HintPath>System.Data</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SqlClient">
+      <HintPath>..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\system.data.sqlclient\4.4.3\ref\netstandard2.0\System.Data.SqlClient.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup Condition="$(VisualStudioVersion) == '15.0'">
+    <Reference Include="Microsoft.Data.Tools.Schema.Sql, Version=13.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>$(SSDTPath)\Microsoft.Data.Tools.Schema.Sql.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.Tools.Schema.Sql.UnitTesting, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>$(SSDTUnitTestPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Data.Tools.Schema.Sql.UnitTestingAdapter, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>$(SSDTUnitTestPath)\Microsoft.Data.Tools.Schema.Sql.UnitTestingAdapter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <PropertyGroup>
+    <SsdtUnitTestVersion>3.1</SsdtUnitTestVersion>
+  </PropertyGroup>
+  <Import Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="$(VisualStudioVersion) != '15.0' And '$(SQLDBExtensionsRefPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.Sql.UnitTesting.targets" Condition="$(VisualStudioVersion) != '15.0' And '$(SQLDBExtensionsRefPath)' == ''" />
+</Project>

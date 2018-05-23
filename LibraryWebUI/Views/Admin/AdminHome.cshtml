@@ -1,0 +1,10 @@
+﻿@model LibraryWebUI.ViewModels.Admin.AdminHomeViewModel
+
+@{
+    ViewData["Title"] = "AdminHome";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>AdminHome</h2>
+<p>Welcome, @Model.LoggedInAdmin.FirstName @Model.LoggedInAdmin.LastName!</p>
+

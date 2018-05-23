@@ -1,0 +1,66 @@
+﻿@model LibraryWebUI.ViewModels.SearchViewModel
+@using CoreLibrary.Inventory
+@{
+    ViewData["Title"] = "Search";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Search</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+		<tr>
+			<th>Title</th>
+			<th>Format</th>
+			<th>Genre</th>
+			<th>Description</th>
+			<th>Library ID</th>
+			<th>Action</th>
+		</tr>
+    </thead>
+    <tbody>
+
+@{ 
+	List<IBook> sortedBooks = Model.Books.OrderBy(book => book.Title).ToList();
+	foreach (IBook book in sortedBooks) {
+		<tr>
+
+			<td>
+				@book.Title
+			</td>
+			<td>
+				@book.Format
+			</td>
+			<td>
+				@book.Genre
+			</td>
+			<td>
+				@book.Description
+			</td>
+			<td>
+				@book.LibraryID
+			</td>
+			<td>
+
+				
+				<form asp-action="EditBook" method="post" style="margin:0;padding:0;">
+					<input hidden type="number" name="libraryID" value="@book.LibraryID" />
+					<input type="submit" class="btn btn-link" value="Edit" style="margin:0;padding:0;" />
+				</form>
+				<form asp-action="BookDetails" method="post" style="margin:0;padding:0;">
+					<input hidden type="number" name="libraryID" value="@book.LibraryID" />
+					<input type="submit" class="btn btn-link" value="Details" style="margin:0;padding:0;" />
+				</form>
+				<form asp-action="RemoveBook" method="post" style="margin:0;padding:0;">
+					<input hidden type="number" name="libraryID" value="@book.LibraryID" />
+					<input type="submit" class="btn btn-link" value="Delete" style="margin:0;padding:0;" />
+				</form>
+			</td>
+		</tr>
+	}
+}
+    </tbody>
+</table>

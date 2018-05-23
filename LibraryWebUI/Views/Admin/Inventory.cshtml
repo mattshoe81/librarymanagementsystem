@@ -1,0 +1,71 @@
+﻿
+@{
+	ViewData["Title"] = "Inventory";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="text-center">
+	<h2>Inventory</h2>
+</div>
+
+<div class="container-fluid" style="margin-top:20px">
+
+	<div class="row">
+
+		<div class="col-xs-4" style="border-right:1px solid">
+
+			<div class="text-center">
+				<h3>Manage Books</h3>
+				<form asp-action="NewBook" method="get">
+					<input type="submit" style="margin:5px" class="btn-primary" value="Add New Book" />
+				</form>
+
+				<form asp-action="SpecifyBookToEdit" method="get">
+					<input type="submit" style="margin:5px" class="btn-primary" value="Edit Existing Book" />
+				</form>
+
+				<form asp-action="SpecifyBookToRemove" method="get">
+					<input type="submit" style="margin:5px" class="btn-primary" value="Remove Existing Book" />
+				</form>
+			</div>
+			
+		</div>
+
+		<div class="col-xs-4" style="border-right:1px solid">
+
+			<div class="text-center">
+				<h3>Manage Movies</h3>
+				<form asp-action="Inventory" method="get">
+					<input type="submit" style="margin:5px" class="btn-primary" value="Add New Movie" />
+				</form>
+				<form asp-action="Inventory" method="get">
+					<input type="submit" style="margin:5px" class="btn-primary" value="Edit Existing Movie" />
+				</form>
+				<form asp-action="Inventory" method="get">
+					<input type="submit" style="margin:5px" class="btn-primary" value="Remove Existing Movie" />
+				</form>
+			</div>
+
+		</div>
+
+		<div class="col-xs-4">
+			<div class="text-center">
+				<h3>Manage Access</h3>
+				<form asp-action="Inventory" method="get">
+					<input type="submit" style="margin:5px" class="btn-primary" value="Add New Admin" />
+				</form>
+				<form asp-action="Inventory" method="get">
+					<input type="submit" style="margin:5px" class="btn-primary" value="Add New Member" />
+				</form>
+				<form asp-action="Inventory" method="get">
+					<input type="submit" style="margin:5px" class="btn-primary" value="Remove User" />
+				</form>
+			</div>
+		</div>
+
+
+	</div>
+
+
+
+</div>
