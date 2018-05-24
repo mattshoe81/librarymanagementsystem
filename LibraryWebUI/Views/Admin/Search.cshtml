@@ -1,66 +1,92 @@
 ﻿@model LibraryWebUI.ViewModels.SearchViewModel
 @using CoreLibrary.Inventory
 @{
-    ViewData["Title"] = "Search";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+	ViewData["Title"] = "Search";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h2>Search</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="form-inline">
+	<div class="row">
+		<div class="col-xs-3">
+			<form asp-action="SortSearch" method="post">
+				<label for="sortSearchBy">Sort By:</label>
+				<div class="form-inline">
+					<select name="sortSearchBy" class="form-control form-control-sm">
+						<option value="title">Title</option>
+						<option value="author">Author</option>
+						<option value="libraryID">Library ID</option>
+					</select>
+					<input type="submit" value="Sort" class="btn btn-primary text-center" />
+				</div>
+			</form>
+		</div>
+		<div class="col-xs-8 pull-left">
+			<form asp-action="SearchByUserString" method="post">
+				<label for="searchString">Search:</label>
+				<div class="form-inline">
+					<input type="text" size="50" name="searchString" class="form-control form-control-sm" />
+					<input type="submit" value="Search" class="btn btn-primary text-center" />
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
 <table class="table">
-    <thead>
+	<thead>
 		<tr>
 			<th>Title</th>
+			<th>Author</th>
 			<th>Format</th>
 			<th>Genre</th>
 			<th>Description</th>
 			<th>Library ID</th>
 			<th>Action</th>
 		</tr>
-    </thead>
-    <tbody>
+	</thead>
+	<tbody>
 
-@{ 
-	List<IBook> sortedBooks = Model.Books.OrderBy(book => book.Title).ToList();
-	foreach (IBook book in sortedBooks) {
-		<tr>
+		@{
+			foreach (IBook book in Model.Books) {
+				<tr>
 
-			<td>
-				@book.Title
-			</td>
-			<td>
-				@book.Format
-			</td>
-			<td>
-				@book.Genre
-			</td>
-			<td>
-				@book.Description
-			</td>
-			<td>
-				@book.LibraryID
-			</td>
-			<td>
-
-				
-				<form asp-action="EditBook" method="post" style="margin:0;padding:0;">
-					<input hidden type="number" name="libraryID" value="@book.LibraryID" />
-					<input type="submit" class="btn btn-link" value="Edit" style="margin:0;padding:0;" />
-				</form>
-				<form asp-action="BookDetails" method="post" style="margin:0;padding:0;">
-					<input hidden type="number" name="libraryID" value="@book.LibraryID" />
-					<input type="submit" class="btn btn-link" value="Details" style="margin:0;padding:0;" />
-				</form>
-				<form asp-action="RemoveBook" method="post" style="margin:0;padding:0;">
-					<input hidden type="number" name="libraryID" value="@book.LibraryID" />
-					<input type="submit" class="btn btn-link" value="Delete" style="margin:0;padding:0;" />
-				</form>
-			</td>
-		</tr>
-	}
-}
-    </tbody>
+					<td>
+						@book.Title
+					</td>
+					<td>
+						@book.Author
+					</td>
+					<td>
+						@book.Format
+					</td>
+					<td>
+						@book.Genre
+					</td>
+					<td>
+						@book.Description
+					</td>
+					<td>
+						@book.LibraryID
+					</td>
+					<td>
+						<form asp-action="EditBook" method="post" style="margin:0;padding:0;">
+							<input hidden type="number" name="libraryID" value="@book.LibraryID" />
+							<input type="submit" class="btn btn-link" value="Edit" style="margin:0;padding:0;" />
+						</form>
+						<form asp-action="BookDetails" method="post" style="margin:0;padding:0;">
+							<input hidden type="number" name="libraryID" value="@book.LibraryID" />
+							<input type="submit" class="btn btn-link" value="Details" style="margin:0;padding:0;" />
+						</form>
+						<form asp-action="RemoveBook" method="post" style="margin:0;padding:0;">
+							<input hidden type="number" name="libraryID" value="@book.LibraryID" />
+							<input type="submit" class="btn btn-link" value="Delete" style="margin:0;padding:0;" />
+						</form>
+					</td>
+				</tr>
+			}
+		}
+	</tbody>
 </table>

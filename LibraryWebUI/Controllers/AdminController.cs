@@ -15,10 +15,9 @@ namespace LibraryWebUI.Controllers
     public class AdminController : Controller
     {
 		[HttpGet]
-        public IActionResult AdminLogin()
-        {
+        public IActionResult AdminLogin() {
             return View(new LoginViewModel());
-        }
+		}
 
 		[HttpPost]
 		public IActionResult AdminLogin(LoginModel loginInfo) {
@@ -132,8 +131,45 @@ namespace LibraryWebUI.Controllers
 			return View();
 		}
 
+		[HttpGet]
 		public IActionResult Search() {
+			SearchViewModel viewModel = new SearchViewModel();
 			return View(new SearchViewModel());
+		}
+
+		[HttpPost]
+		public IActionResult SortSearch(string sortSearchBy) {
+			SearchViewModel viewModel = new SearchViewModel();
+			switch (sortSearchBy) {
+				case "title":
+					viewModel.Books = viewModel.Books.OrderBy(book => book.Title);
+					break;
+				case "author":
+					viewModel.Books = viewModel.Books.OrderBy(book => book.Author);
+					break;
+				case "libraryID":
+					viewModel.Books = viewModel.Books.OrderBy(book => book.LibraryID);
+					break;
+				default:
+					break;
+			}
+
+			return View("Search", viewModel);
+		}
+
+		[HttpPost]
+		public IActionResult SearchByUserString(string searchString) {
+			SearchViewModel viewModel = new SearchViewModel();
+			viewModel.Books = viewModel.Books.Where(book => book.Title.ToLower().Contains(searchString.ToLower())
+															|| book.Author.ToLower().Contains(searchString.ToLower())
+															|| book.Genre.ToLower().Contains(searchString.ToLower())
+															|| book.ISBN10.ToLower().Contains(searchString.ToLower())
+															|| book.ISBN13.ToLower().Contains(searchString.ToLower())
+															|| book.Description.ToLower().Contains(searchString.ToLower())
+															|| book.Format.ToLower().Contains(searchString.ToLower())
+															|| book.Publisher.ToLower().Contains(searchString.ToLower())
+														);
+			return View("Search", viewModel);
 		}
 
 		public IActionResult BookDetails(int libraryID) {
@@ -142,5 +178,7 @@ namespace LibraryWebUI.Controllers
 			viewModel.Book = book;
 			return View(viewModel);
 		}
+
+
     }
 }
