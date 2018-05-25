@@ -19,8 +19,6 @@ namespace CoreLibrary.Inventory
 
 		string Genre { get; set; }
 
-		string Description { get; set; }
-
 		string Author { get; set; }
 
 		int LengthOfLoan { get; set; }

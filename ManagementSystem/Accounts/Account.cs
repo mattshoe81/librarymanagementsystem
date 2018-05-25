@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CoreLibrary.Members
 {
-	class Account : IAccount {
+	public class Account : IAccount {
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
 		public string Email { get; set; }

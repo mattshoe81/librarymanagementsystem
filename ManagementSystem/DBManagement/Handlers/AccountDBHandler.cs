@@ -28,7 +28,7 @@ namespace CoreLibrary.DBManagement.Handlers
 		public void CreateMemberAccount(IAccount account) {
 			using (SqlConnection connection = DBManager.GetSqlConnection()) {
 				connection.Open();
-				using (SqlCommand command = new SqlCommand(DBManager.GetQueryTextFromResource(CREATE_MEMBER_ACCOUNT_RESOURCE))) {
+				using (SqlCommand command = new SqlCommand(DBManager.GetQueryTextFromResource(CREATE_MEMBER_ACCOUNT_RESOURCE), connection)) {
 					command.Parameters.AddWithValue("@email", account.Email);
 					command.Parameters.AddWithValue("@password", account.Password);
 					command.Parameters.AddWithValue("@firstName", account.FirstName);
@@ -41,7 +41,7 @@ namespace CoreLibrary.DBManagement.Handlers
 		public void CreateAdminAccount(IAccount account) {
 			using (SqlConnection connection = DBManager.GetSqlConnection()) {
 				connection.Open();
-				using (SqlCommand command = new SqlCommand(DBManager.GetQueryTextFromResource(CREATE_ADMIN_ACCOUNT_RESOURCE))) {
+				using (SqlCommand command = new SqlCommand(DBManager.GetQueryTextFromResource(CREATE_ADMIN_ACCOUNT_RESOURCE), connection)) {
 					command.Parameters.AddWithValue("@email", account.Email);
 					command.Parameters.AddWithValue("@password", account.Password);
 					command.Parameters.AddWithValue("@firstName", account.FirstName);
@@ -100,7 +100,7 @@ namespace CoreLibrary.DBManagement.Handlers
 					command.Parameters.AddWithValue("@email", account.Email);
 					using (SqlDataReader reader = command.ExecuteReader()) {
 						reader.Read();
-						isMember = !reader.GetBoolean(0);
+						isMember = reader.GetBoolean(0);
 					}
 				}
 			}

@@ -29,12 +29,12 @@ namespace LibraryWebUI.Controllers
 		}
 
 		public IActionResult BrowseInventory() {
-			return View(new SearchViewModel());
+			return View(new BrowseViewModel());
 		}
 
 		[HttpPost]
 		public IActionResult SortSearch(string sortSearchBy) {
-			SearchViewModel viewModel = new SearchViewModel();
+			BrowseViewModel viewModel = new BrowseViewModel();
 			switch (sortSearchBy) {
 				case "title":
 					viewModel.Books = viewModel.Books.OrderBy(book => book.Title);
@@ -54,7 +54,7 @@ namespace LibraryWebUI.Controllers
 
 		[HttpPost]
 		public IActionResult SearchByUserString(string searchString) {
-			SearchViewModel viewModel = new SearchViewModel();
+			BrowseViewModel viewModel = new BrowseViewModel();
 			viewModel.Books = viewModel.Books.Where(book => book.Title.ToLower().Contains(searchString.ToLower())
 															|| book.Author.ToLower().Contains(searchString.ToLower())
 															|| book.Genre.ToLower().Contains(searchString.ToLower())

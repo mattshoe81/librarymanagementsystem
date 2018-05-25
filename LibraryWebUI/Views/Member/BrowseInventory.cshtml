@@ -1,4 +1,4 @@
-﻿@model LibraryWebUI.ViewModels.SearchViewModel
+﻿@model LibraryWebUI.ViewModels.Member.BrowseViewModel
 @using CoreLibrary.Inventory
 @{
 	ViewData["Title"] = "BrowseInventory";
@@ -78,12 +78,15 @@
 					<td>
 						@book.LibraryID
 					</td>
-					<td>
-						<form asp-action="ReserveBook" method="post" style="margin:0;padding:0;">
-							<input hidden type="number" name="libraryID" value="@book.LibraryID" />
-							<input type="submit" class="btn btn-primary" value="Reserve"/>
-						</form>
-					</td>
+					@if (Model.LoggedIn) {
+						<td>
+							<form asp-action="ReserveBook" method="post" style="margin:0;padding:0;">
+								<input hidden type="number" name="libraryID" value="@book.LibraryID" />
+								<input type="submit" class="btn btn-primary" value="Reserve" />
+							</form>
+						</td>
+					}
+					
 				</tr>
 			}
 		}

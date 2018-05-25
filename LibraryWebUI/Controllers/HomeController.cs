@@ -10,6 +10,7 @@ using LibraryWebUI.ViewModels;
 using CoreLibrary.Accounts;
 using LibraryWebUI.ViewModels.Admin;
 using LibraryWebUI.ViewModels.Member;
+using CoreLibrary.Members;
 
 namespace LibraryWebUI.Controllers
 {
@@ -65,6 +66,29 @@ namespace LibraryWebUI.Controllers
 					view = View("Index", viewModel);
 				}				
 			}
+
+			return view;
+		}
+
+		[HttpGet]
+		public IActionResult CreateAccount() {
+			return View(new CreateAccountViewModel());
+		}
+
+		[HttpPost]
+		public IActionResult CreateAccount(Account account, string passwordVerification) {
+			IActionResult view;
+			if (account.Password == passwordVerification) {
+				if (!AccountManager.VerifyMemberEmail(account) && !AccountManager.VerifyAdminEmail(account)) {
+					AccountManager.CreateMemberAccount(account);
+					view = View("Index", new LoginViewModel());
+				} else {
+					view = View(new CreateAccountViewModel("Email already in use"));
+				}
+			} else {
+				view = View(new CreateAccountViewModel("Passwords do not match"));
+			}
+			
 
 			return view;
 		}
