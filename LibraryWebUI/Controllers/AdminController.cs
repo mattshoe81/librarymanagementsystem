@@ -22,11 +22,11 @@ namespace LibraryWebUI.Controllers
 		[HttpPost]
 		public IActionResult AdminLogin(LoginModel loginInfo) {
 			IActionResult view;
-			AdminRepository adminRepo = new AdminRepository();
+			AccountRepository adminRepo = new AccountRepository();
 			if (ModelState.IsValid) {
-				if (adminRepo.VerifyLogin(loginInfo.Email, loginInfo.Password)) {
-					IAdmin admin = SearchUtility.GetAdminByEmail(loginInfo.Email);
-					AdminRepository.LoggedInAdmin = admin;
+				if (adminRepo.VerifyAdminLogin(loginInfo.Email, loginInfo.Password)) {
+					IAccount admin = SearchUtility.GetAccountByEmail(loginInfo.Email);
+					AccountRepository.LoggedInAccount = admin;
 					view = View("AdminHome", new AdminHomeViewModel());
 				} else {
 					view = View(new LoginViewModel {
@@ -43,7 +43,7 @@ namespace LibraryWebUI.Controllers
 
 		public IActionResult AdminHome() {
 			IActionResult view;
-			if (AdminRepository.LoggedInAdmin == null) {
+			if (AccountRepository.LoggedInAccount == null) {
 				view = View("AdminLogin", new LoginViewModel());
 			} else {
 				view = View(new AdminHomeViewModel());
@@ -154,7 +154,7 @@ namespace LibraryWebUI.Controllers
 					break;
 			}
 
-			return View("Search", viewModel);
+			return View("BrowseInventory", viewModel);
 		}
 
 		[HttpPost]
@@ -169,7 +169,7 @@ namespace LibraryWebUI.Controllers
 															|| book.Format.ToLower().Contains(searchString.ToLower())
 															|| book.Publisher.ToLower().Contains(searchString.ToLower())
 														);
-			return View("Search", viewModel);
+			return View("BrowseInventory", viewModel);
 		}
 
 		public IActionResult BookDetails(int libraryID) {

@@ -20,7 +20,7 @@ namespace CoreLibrary.DBManagement.Handlers
 			throw new NotImplementedException();
 		}
 
-		public bool CheckoutMovie(IMovie movie, IMember member) {
+		public bool CheckoutMovie(IMovie movie, IAccount member) {
 			throw new NotImplementedException();
 		}
 
@@ -56,7 +56,7 @@ namespace CoreLibrary.DBManagement.Handlers
 			throw new NotImplementedException();
 		}
 
-		public bool ReturnMovie(IMovie movie, IMember member) {
+		public bool ReturnMovie(IMovie movie, IAccount member) {
 			throw new NotImplementedException();
 		}
 	}

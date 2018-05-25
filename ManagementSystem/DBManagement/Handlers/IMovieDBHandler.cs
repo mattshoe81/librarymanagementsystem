@@ -24,9 +24,9 @@ namespace CoreLibrary.DBManagement.Handlers
 
 		IEnumerable<IMovie> GetCheckedOutMovies();
 
-		bool CheckoutMovie(IMovie movie, IMember member);
+		bool CheckoutMovie(IMovie movie, IAccount member);
 
-		bool ReturnMovie(IMovie movie, IMember member);
+		bool ReturnMovie(IMovie movie, IAccount member);
 
 		bool AddNewMovie(IMovie movie);
 	}

@@ -9,7 +9,7 @@ namespace LibraryWebUI.ViewModels.Admin
 {
 	public class NewBookViewModel : IAdminViewModel {
 
-		public IAdmin LoggedInAdmin { get; set; }
+		public IAccount LoggedInAdmin { get; set; }
 		
 		public IBook Book { get; set; }
 
@@ -28,7 +28,7 @@ namespace LibraryWebUI.ViewModels.Admin
 		}
 
 		public NewBookViewModel() {
-			LoggedInAdmin = Models.AdminRepository.LoggedInAdmin;
+			LoggedInAdmin = Models.AccountRepository.LoggedInAccount;
 			Book = new Book {
 				Title = "",
 				Author = "",

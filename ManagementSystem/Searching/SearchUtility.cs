@@ -10,71 +10,71 @@ namespace CoreLibrary.Searching
     public class SearchUtility
     {
 		public static IEnumerable<IBook> GetBooks() {
-			return DBManager.NewDBHandler().GetBooks();
+			return DBManager.NewBookDBHandler().GetBooks();
 		}
 
 		public static int BookAvailability(IBook book) {
-			return DBManager.NewDBHandler().BookAvailability(book);
+			return DBManager.NewBookDBHandler().BookAvailability(book);
+		}
+
+		public static IEnumerable<IAccount> GetAccounts() {
+			return DBManager.NewAccountDBHandler().GetAccounts();
 		}
 
 		public static IEnumerable<IBook> GetBooksByAuthor(string author) {
-			return DBManager.NewDBHandler().GetBooksByAuthor(author);
+			return DBManager.NewBookDBHandler().GetBooksByAuthor(author);
 		}
 
 		public static IEnumerable<IBook> GetBooksByGenre(string genre) {
-			return DBManager.NewDBHandler().GetBooksByGenre(genre);
+			return DBManager.NewBookDBHandler().GetBooksByGenre(genre);
 		}
 
 		public static IEnumerable<IBook> GetBooksByPublisher(string publisher) {
-			return DBManager.NewDBHandler().GetBooksByPublisher(publisher);
+			return DBManager.NewBookDBHandler().GetBooksByPublisher(publisher);
 		}
 
 		public static IEnumerable<IBook> GetBooksByTitle(string title) {
-			return DBManager.NewDBHandler().GetBooksByTitle(title);
+			return DBManager.NewBookDBHandler().GetBooksByTitle(title);
 		}
 
 		public static IEnumerable<IBook> GetBooksByISBN(string ISBN) {
-			return DBManager.NewDBHandler().GetBooksByISBN(ISBN);
+			return DBManager.NewBookDBHandler().GetBooksByISBN(ISBN);
 		}
 
 		public static IBook GetBookByLibraryID(int ID) {
-			return DBManager.NewDBHandler().GetBookByLibraryID(ID);
+			return DBManager.NewBookDBHandler().GetBookByLibraryID(ID);
 		}
 
 		public static IEnumerable<IMovie> GetMovies() {
-			return DBManager.NewDBHandler().GetMovies();
+			return DBManager.NewMovieDBHandler().GetMovies();
 		}
 
 		public static int MovieAvailability(IMovie movie) {
-			return DBManager.NewDBHandler().MovieAvailability(movie);
+			return DBManager.NewMovieDBHandler().MovieAvailability(movie);
 		}
 
 		public static IEnumerable<IMovie> GetMoviesByDirector(string director) {
-			return DBManager.NewDBHandler().GetMoviesByDirector(director);
+			return DBManager.NewMovieDBHandler().GetMoviesByDirector(director);
 		}
 
 		public static IEnumerable<IMovie> GetMoviesByActor(string actor) {
-			return DBManager.NewDBHandler().GetMoviesByActor(actor);
+			return DBManager.NewMovieDBHandler().GetMoviesByActor(actor);
 		}
 
 		public static IEnumerable<IMovie> GetMoviesByMediaType(string mediaType) {
-			return DBManager.NewDBHandler().GetMoviesByMediaType(mediaType);
+			return DBManager.NewMovieDBHandler().GetMoviesByMediaType(mediaType);
 		}
 
 		public static IEnumerable<IMovie> GetMoviesByTitle(string title) {
-			return DBManager.NewDBHandler().GetMoviesByTitle(title);
+			return DBManager.NewMovieDBHandler().GetMoviesByTitle(title);
 		}
 
 		public static IMovie GetMovieByLibraryID(int ID) {
-			return DBManager.NewDBHandler().GetMovieByLibraryID(ID);
+			return DBManager.NewMovieDBHandler().GetMovieByLibraryID(ID);
 		}
 
-		public static IEnumerable<IAdmin> GetAdmins() {
-			return DBManager.NewMemberDBHandler().GetAdmins();
-		}
-
-		public static IAdmin GetAdminByEmail(string email) {
-			return DBManager.NewMemberDBHandler().GetAdminByEmail(email);
+		public static IAccount GetAccountByEmail(string email) {
+			return DBManager.NewAccountDBHandler().GetAccountByEmail(email);
 		}
 	}
 }

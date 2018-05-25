@@ -13,5 +13,7 @@ namespace CoreLibrary.Inventory
 
 		string Format { get; set; }
 
+		string Description { get; set; }
+
 	}
 }

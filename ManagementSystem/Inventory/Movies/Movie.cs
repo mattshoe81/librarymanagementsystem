@@ -13,5 +13,6 @@ namespace CoreLibrary.Inventory
 		public string Format { get; set; } = "<Unknown>";
 		public int LibraryID { get; set; }
 		public string Title { get; set; }
+		public string Description { get; set; } = "<Unknown>";
 	}
 }

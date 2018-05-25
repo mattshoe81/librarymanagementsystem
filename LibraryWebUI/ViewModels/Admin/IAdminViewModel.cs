@@ -8,6 +8,6 @@ namespace LibraryWebUI.ViewModels.Admin
 {
     interface IAdminViewModel
     {
-		IAdmin LoggedInAdmin { get; set; }
+		IAccount LoggedInAdmin { get; set; }
     }
 }

@@ -1,15 +1,15 @@
-﻿@model LibraryWebUI.ViewModels.BookDetailsViewModel
+﻿@model LibraryWebUI.ViewModels.Member.ReserveBookViewModel
 
 @{
-    ViewData["Title"] = "BookDetails";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+	ViewData["Title"] = "BookDetails";
+	Layout = "~/Views/Shared/_MemberLayout.cshtml";
 }
 
 <h2>BookDetails</h2>
 
 <div>
-    <h4>BookDetails</h4>
-    <hr />
+	<h4>BookDetails</h4>
+	<hr />
 	<dl class="dl-horizontal">
 		<dt>
 			@Html.DisplayName("Library ID:")
@@ -86,6 +86,6 @@
 	</dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", Model.Action, new { id="id", libraryid=Model.Book.LibraryID }) |
-    <a asp-action="Index">Back to List</a>
+	@Html.ActionLink("Add to Cart", "AddToCart", new { id = "id", libraryid = Model.Book.LibraryID }) |
+	<a asp-action="BrowseInventory">Back to List</a>
 </div>

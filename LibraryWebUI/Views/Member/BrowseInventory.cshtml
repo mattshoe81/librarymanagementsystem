@@ -1,8 +1,91 @@
-﻿
+﻿@model LibraryWebUI.ViewModels.SearchViewModel
+@using CoreLibrary.Inventory
 @{
-    ViewData["Title"] = "BrowseInventory";
-    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+	ViewData["Title"] = "BrowseInventory";
+	Layout = "~/Views/Shared/_MemberLayout.cshtml";
 }
 
 <h2>BrowseInventory</h2>
 
+<div class="form-inline">
+	<div class="row">
+		<div class="col-xs-3">
+			<form asp-action="SortSearch" method="post">
+				<label for="sortSearchBy">Sort By:</label>
+				<div class="form-inline">
+					<select name="sortSearchBy" class="form-control form-control-sm">
+						<option value="title">Title</option>
+						<option value="author">Author</option>
+						<option value="libraryID">Library ID</option>
+					</select>
+					<input type="submit" value="Sort" class="btn btn-primary text-center" />
+				</div>
+			</form>
+		</div>
+		<div class="col-xs-7 pull-left">
+			<form asp-action="SearchByUserString" method="post">
+				<label for="searchString">Search:</label>
+				<div class="form-inline">
+					<input type="text" size="50" name="searchString" class="form-control form-control-sm" />
+					<input type="submit" value="Search" class="btn btn-primary text-center" />
+				</div>
+			</form>
+		</div>
+		<div class="col-xs-2">
+			<button class="btn btn-primary pull-right"  asp-action="Cart">View Cart</button>
+
+		</div>
+	</div>
+</div>
+
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Author</th>
+			<th>Format</th>
+			<th>Genre</th>
+			<th>Description</th>
+			<th>ID</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+
+		@{
+			foreach (IBook book in Model.Books) {
+				<tr>
+
+					<td>
+						<form asp-action="BrowseInventory" method="post" style="margin:0;padding:0;">
+							<input hidden type="number" name="libraryID" value="@book.LibraryID" />
+							<input type="submit" class="btn btn-link" value="@book.Title" style="margin:0;padding:0;" />
+						</form>
+					</td>
+					<td>
+						@book.Author
+					</td>
+					<td>
+						@book.Format
+					</td>
+					<td>
+						@book.Genre
+					</td>
+					<td>
+						@book.Description
+					</td>
+					<td>
+						@book.LibraryID
+					</td>
+					<td>
+						<form asp-action="ReserveBook" method="post" style="margin:0;padding:0;">
+							<input hidden type="number" name="libraryID" value="@book.LibraryID" />
+							<input type="submit" class="btn btn-primary" value="Reserve"/>
+						</form>
+					</td>
+				</tr>
+			}
+		}
+	</tbody>
+</table>

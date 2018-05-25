@@ -57,11 +57,7 @@ namespace LibraryManagementSystem.Tests.ManagementLibraryTests
 
 			Assert.True(this.BooksAreEqual(bookExp, bookTest));
 		}
-
-		[Fact]
-		public void GetMembers_Test() {
-			List<IMember> membersTest = Members.GetMembers() as List<IMember>;
-		}
+		
 
 		[Fact]
 		public void IsValidLibraryID_Test() {

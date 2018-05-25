@@ -12,10 +12,16 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="DBManagement\Queries\AccountQueries\CreateMemberAccount.sql" />
+    <None Remove="DBManagement\Queries\AccountQueries\GetAccountByEmail.sql" />
+    <None Remove="DBManagement\Queries\AccountQueries\GetAccounts.sql" />
+    <None Remove="DBManagement\Queries\AccountQueries\VerifyAdminEmail.sql" />
+    <None Remove="DBManagement\Queries\AccountQueries\VerifyMemberEmail.sql" />
     <None Remove="DBManagement\Queries\AddNewBook.sql" />
     <None Remove="DBManagement\Queries\BookAvailability.sql" />
     <None Remove="DBManagement\Queries\CheckLibraryIDExists.sql" />
     <None Remove="DBManagement\Queries\CheckoutBook.sql" />
+    <None Remove="DBManagement\Queries\CreateAdminAccount.sql" />
     <None Remove="DBManagement\Queries\GetAdminByEmail.sql" />
     <None Remove="DBManagement\Queries\GetAdmins.sql" />
     <None Remove="DBManagement\Queries\GetBookByID.sql" />
@@ -29,21 +35,27 @@
     <None Remove="DBManagement\Queries\View_Media_Details.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DBManagement\Queries\AddNewBook.sql" />
-    <EmbeddedResource Include="DBManagement\Queries\BookAvailability.sql" />
-    <EmbeddedResource Include="DBManagement\Queries\CheckLibraryIDExists.sql" />
-    <EmbeddedResource Include="DBManagement\Queries\CheckoutBook.sql" />
-    <EmbeddedResource Include="DBManagement\Queries\GetAdminByEmail.sql" />
-    <EmbeddedResource Include="DBManagement\Queries\GetAdmins.sql" />
-    <EmbeddedResource Include="DBManagement\Queries\GetBookByID.sql" />
-    <EmbeddedResource Include="DBManagement\Queries\GetFormat.sql" />
-    <EmbeddedResource Include="DBManagement\Queries\GetMemberPassword.sql" />
-    <EmbeddedResource Include="DBManagement\Queries\GetMembers.sql" />
-    <EmbeddedResource Include="DBManagement\Queries\GetNewLibraryID.sql" />
-    <EmbeddedResource Include="DBManagement\Queries\RemoveBook.sql" />
-    <EmbeddedResource Include="DBManagement\Queries\ReturnBook.sql" />
-    <EmbeddedResource Include="DBManagement\Queries\UpdateBook.sql" />
-    <EmbeddedResource Include="DBManagement\Queries\View_Media_Details.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\AccountQueries\CreateMemberAccount.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\AccountQueries\GetAccountByEmail.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\AccountQueries\GetAccounts.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\AccountQueries\VerifyAdminEmail.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\AccountQueries\VerifyMemberEmail.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\BookQueries\AddNewBook.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\BookQueries\BookAvailability.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\General\CheckLibraryIDExists.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\BookQueries\CheckoutBook.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\AccountQueries\CreateAdminAccount.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\AccountQueries\GetAdminByEmail.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\AccountQueries\GetAdmins.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\BookQueries\GetBookByID.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\General\GetFormat.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\AccountQueries\GetMemberPassword.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\AccountQueries\GetMembers.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\General\GetNewLibraryID.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\BookQueries\RemoveBook.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\BookQueries\ReturnBook.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\BookQueries\UpdateBook.sql" />
+    <EmbeddedResource Include="DBManagement\Queries\General\View_Media_Details.sql" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data">
@@ -53,7 +65,6 @@
       <HintPath>..\..\..\..\..\..\Program Files\dotnet\sdk\NuGetFallbackFolder\system.data.sqlclient\4.4.3\ref\netstandard2.0\System.Data.SqlClient.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup Condition="$(VisualStudioVersion) == '15.0'">
     <Reference Include="Microsoft.Data.Tools.Schema.Sql.UnitTesting, Version=15.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>$(SSDTUnitTestPath)\Microsoft.Data.Tools.Schema.Sql.UnitTesting.dll</HintPath>

@@ -6,7 +6,7 @@ using CoreLibrary.Members;
 
 namespace CoreLibrary.DBManagement.Handlers
 {
-    interface IBookDBHandler
+    public interface IBookDBHandler
     {
 		void RemoveBook(IBook book);
 
@@ -27,8 +27,6 @@ namespace CoreLibrary.DBManagement.Handlers
 		IEnumerable<IBook> GetCheckedOutBooks();
 
 		int BookAvailability(IBook book);
-
-		bool CheckoutBook(IBook book, IMember member);
 
 		bool ReturnBook(IBook book);
 

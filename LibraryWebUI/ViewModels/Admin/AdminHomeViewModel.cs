@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LibraryWebUI.ViewModels.Admin
 {
-    public class AdminHomeViewModel : AdminViewModel
+    public class AdminHomeViewModel : LoggedInViewModel
     {
     }
 }

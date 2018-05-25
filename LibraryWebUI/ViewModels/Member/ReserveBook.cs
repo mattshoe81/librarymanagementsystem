@@ -4,12 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using CoreLibrary.Inventory;
 
-namespace LibraryWebUI.ViewModels.Admin
+namespace LibraryWebUI.ViewModels.Member
 {
-    public class BookDetailsViewModel
+    public class ReserveBookViewModel
     {
 		public IBook Book { get; set; }
-
-		public string Action { get; set; }
     }
 }

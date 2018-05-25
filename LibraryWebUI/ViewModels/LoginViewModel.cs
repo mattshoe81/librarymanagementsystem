@@ -9,6 +9,6 @@ namespace LibraryWebUI.ViewModels
 
 		public Models.LoginModel LoginInfo { get; set; } = new Models.LoginModel { Email = "", Password = "" };
 
-		public string[] LoginErrorInfo { get; set; } = { };
+		public string[] LoginErrorInfo { get; set; } = { "" };
 	}
 }

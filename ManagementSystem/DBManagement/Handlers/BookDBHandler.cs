@@ -14,15 +14,15 @@ namespace CoreLibrary.DBManagement.Handlers
 	class BookDBHandler : IBookDBHandler {
 		Assembly assembly;
 
-		private const string ADD_NEW_BOOK_QUERY_RESOURCE = "AddNewBook.sql";
-		private const string BOOK_AVAILABILITY_RESOURCE = "BookAvailability.sql";
-		private const string CHECKOUT_BOOK_RESOURCE = "CheckoutBook.sql";
-		private const string RETURN_BOOK_RESOURCE = "ReturnBook.sql";
-		private const string GET_FORMAT_RESOURCE = "GetFormat.sql";
-		private const string GET_BOOK_BY_ID_RESOURCE = "GetBookByID.sql";
-		private const string GET_NEW_LIBRARY_ID_RESOURCE = "GetNewLibraryID.sql";
-		private const string UPDATE_BOOK_RESOURCE = "UpdateBook.sql";
-		private const string REMOVE_BOOK_RESOURCE = "RemoveBook.sql";
+		private const string ADD_NEW_BOOK_QUERY_RESOURCE = "BookQueries.AddNewBook.sql";
+		private const string BOOK_AVAILABILITY_RESOURCE = "BookQueries.BookAvailability.sql";
+		private const string CHECKOUT_BOOK_RESOURCE = "BookQueries.CheckoutBook.sql";
+		private const string RETURN_BOOK_RESOURCE = "BookQueries.ReturnBook.sql";
+		private const string GET_FORMAT_RESOURCE = "BookQueries.GetFormat.sql";
+		private const string GET_BOOK_BY_ID_RESOURCE = "BookQueries.GetBookByID.sql";
+		private const string GET_NEW_LIBRARY_ID_RESOURCE = "BookQueries.GetNewLibraryID.sql";
+		private const string UPDATE_BOOK_RESOURCE = "BookQueries.UpdateBook.sql";
+		private const string REMOVE_BOOK_RESOURCE = "BookQueries.RemoveBook.sql";
 
 		private BookDBHandler() {
 			assembly = Assembly.GetExecutingAssembly();
@@ -140,7 +140,7 @@ namespace CoreLibrary.DBManagement.Handlers
 			return copies;
 		}
 
-		public bool CheckoutBook(IBook book, IMember member) {
+		public bool CheckoutBook(IBook book, IAccount member) {
 			using (SqlConnection connection = DBManager.GetSqlConnection()) {
 				connection.Open();
 				int originalStock = -1;
@@ -158,7 +158,6 @@ namespace CoreLibrary.DBManagement.Handlers
 					command.Parameters.AddWithValue("@checkoutDate", DateTime.Today);
 					command.Parameters.AddWithValue("@dueDate", DateTime.Today.AddDays(book.LengthOfLoan));
 					command.Parameters.AddWithValue("@mediaType", MediaFormat.GetMediaKey(book.Format));
-					command.Parameters.AddWithValue("@borrowerID", member.MemberID);
 					command.Parameters.AddWithValue("@copiesInStockUpdated", --originalStock);
 					command.ExecuteNonQuery();
 				}

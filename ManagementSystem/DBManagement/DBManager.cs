@@ -26,10 +26,6 @@ namespace CoreLibrary.DBManagement
 			return queryText;
 		}
 
-		internal static IDBHandler NewDBHandler() {
-			return DBHandler.NewInstance();
-		}
-
 		internal static IBookDBHandler NewBookDBHandler() {
 			return BookDBHandler.NewInstance();
 		}
@@ -38,8 +34,8 @@ namespace CoreLibrary.DBManagement
 			return MovieDBHandler.NewInstance();
 		}
 
-		internal static IMemberDBHandler NewMemberDBHandler() {
-			return MemberDBHandler.NewInstance();
+		public static IAccountDBHandler NewAccountDBHandler() {
+			return AccountDBHandler.NewInstance();
 		}
 	}
 }
