@@ -87,6 +87,13 @@ namespace LibraryWebUI.Controllers
 			return View(new CartViewModel());
 		}
 
+		public IActionResult BookDetails(int libraryID) {
+			IBook book = SearchUtility.GetBookByLibraryID(libraryID);
+			BookDetailsViewModel viewModel = new BookDetailsViewModel();
+			viewModel.Book = book;
+			return View(viewModel);
+		}
+
 
 
 

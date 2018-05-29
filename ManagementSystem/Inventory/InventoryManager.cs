@@ -16,7 +16,7 @@ namespace CoreLibrary.Inventory
 			using (SqlConnection connection = DBManagement.DBManager.GetSqlConnection()) {
 				connection.Open();
 
-				using (SqlCommand command = new SqlCommand(DBManagement.DBManager.GetQueryTextFromResource("GetNewLibraryID.sql"), connection)) 
+				using (SqlCommand command = new SqlCommand(DBManagement.DBManager.GetQueryTextFromResource("General.GetNewLibraryID.sql"), connection)) 
 				using (SqlDataReader reader = command.ExecuteReader()) {
 
 					reader.Read();
@@ -37,7 +37,7 @@ namespace CoreLibrary.Inventory
 			using (SqlConnection connection = DBManagement.DBManager.GetSqlConnection()) {
 				connection.Open();
 
-				using (SqlCommand command = new SqlCommand(DBManagement.DBManager.GetQueryTextFromResource("CheckLibraryIDExists.sql"), connection)) { 
+				using (SqlCommand command = new SqlCommand(DBManagement.DBManager.GetQueryTextFromResource("General.CheckLibraryIDExists.sql"), connection)) { 
 					command.Parameters.AddWithValue("@libraryID", libraryID);
 
 					using (SqlDataReader reader = command.ExecuteReader()) {
@@ -55,6 +55,9 @@ namespace CoreLibrary.Inventory
 		public static void RemoveBook(IBook book) {
 			DBManagement.DBManager.NewBookDBHandler().RemoveBook(book);
 		}
+		
 
-    }
+
+
+	}
 }

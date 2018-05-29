@@ -100,16 +100,18 @@ namespace LibraryWebUI.Controllers
 				return View("EditBook", viewModel);
 			}
 
-			return View(new SpecifyBookViewModel {
+			return View("SpecifyBook", new SpecifyBookViewModel {
 				ErrorMessage = "Invalid Library ID",
 				Action = "SpecifyBookToEdit"
 			});
 		}
 
+
+
 		public IActionResult SpecifyBookToRemove(int libraryID) {
 			SpecifyBookViewModel viewModel = new SpecifyBookViewModel();
-			viewModel.Action = "SpecifyBookToRemove";
-			return View(viewModel);
+			viewModel.Action = "RemoveBook";
+			return View("SpecifyBook", viewModel);
 		}
 
 		public IActionResult RemoveBook(int libraryID) {
@@ -117,13 +119,13 @@ namespace LibraryWebUI.Controllers
 			if (InventoryManager.IsValidLibraryID(libraryID)) {
 				viewModel.Book = SearchUtility.GetBookByLibraryID(libraryID);
 			} else {
-				return View("SpecifyBookToRemove", new SpecifyBookViewModel {
+				return View("SpecifyBook", new SpecifyBookViewModel {
 					ErrorMessage = "Invalid Library ID",
 					Action = "SpecifyBookToRemove"
 				});
 			}
 			
-			return View(viewModel);
+			return View("RemoveBook", viewModel);
 		}
 
 		public IActionResult RemoveBookResult(int libraryID) {
@@ -154,7 +156,7 @@ namespace LibraryWebUI.Controllers
 					break;
 			}
 
-			return View("BrowseInventory", viewModel);
+			return View("Search", viewModel);
 		}
 
 		[HttpPost]
@@ -169,7 +171,7 @@ namespace LibraryWebUI.Controllers
 															|| book.Format.ToLower().Contains(searchString.ToLower())
 															|| book.Publisher.ToLower().Contains(searchString.ToLower())
 														);
-			return View("BrowseInventory", viewModel);
+			return View("Search", viewModel);
 		}
 
 		public IActionResult BookDetails(int libraryID) {

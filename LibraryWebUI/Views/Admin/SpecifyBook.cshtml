@@ -4,14 +4,14 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2>Specify Which Book to Edit:</h2>
+<h2>Specify Book ID:</h2>
 
 <form asp-action=@Model.Action method="post">
 	<div class="has-error">@Model.ErrorMessage</div>
 	<div>
 		<label for="libraryID">Library ID:</label>
 		<input type="number" name="libraryID" min="0"/>
-		<input type="submit" value="Edit"/>
+		<input type="submit" value="Find"/>
 	</div>
 </form>
 

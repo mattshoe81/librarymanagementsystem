@@ -34,59 +34,40 @@
 	</div>
 </div>
 
+<div>
+	@{
+		foreach (IBook book in Model.Books) {
+			<hr style="border-top: 1px solid; margin-top: 50px; margin-bottom:50px;" />
 
-<table class="table">
-	<thead>
-		<tr>
-			<th>Title</th>
-			<th>Author</th>
-			<th>Format</th>
-			<th>Genre</th>
-			<th>Description</th>
-			<th>Library ID</th>
-			<th>Action</th>
-		</tr>
-	</thead>
-	<tbody>
-
-		@{
-			foreach (IBook book in Model.Books) {
-				<tr>
-
-					<td>
-						@book.Title
-					</td>
-					<td>
-						@book.Author
-					</td>
-					<td>
-						@book.Format
-					</td>
-					<td>
-						@book.Genre
-					</td>
-					<td>
-						@book.Description
-					</td>
-					<td>
-						@book.LibraryID
-					</td>
-					<td>
-						<form asp-action="EditBook" method="post" style="margin:0;padding:0;">
-							<input hidden type="number" name="libraryID" value="@book.LibraryID" />
-							<input type="submit" class="btn btn-link" value="Edit" style="margin:0;padding:0;" />
-						</form>
-						<form asp-action="BookDetails" method="post" style="margin:0;padding:0;">
-							<input hidden type="number" name="libraryID" value="@book.LibraryID" />
-							<input type="submit" class="btn btn-link" value="Details" style="margin:0;padding:0;" />
-						</form>
-						<form asp-action="RemoveBook" method="post" style="margin:0;padding:0;">
-							<input hidden type="number" name="libraryID" value="@book.LibraryID" />
-							<input type="submit" class="btn btn-link" value="Delete" style="margin:0;padding:0;" />
-						</form>
-					</td>
-				</tr>
-			}
+			<h2>@book.Title</h2>
+			<h4>By: @book.Author</h4>
+			<div class="row">
+				<div class="col-xs-9">
+					<textarea readonly style="width:100%; overflow:hidden;" rows="4">@book.Description</textarea>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-xs-1">
+					<form asp-action="EditBook" method="post" style="margin:0;padding:0;">
+						<input hidden type="number" name="libraryID" value="@book.LibraryID" />
+						<input type="submit" class="btn btn-link" value="Edit" style="margin:0;padding:0;" />
+					</form>
+				</div>
+				<div class="col-xs-1">
+					<form asp-action="BookDetails" method="post" style="margin:0;padding:0;">
+						<input hidden type="number" name="libraryID" value="@book.LibraryID" />
+						<input type="submit" class="btn btn-link" value="Details" style="margin:0;padding:0;" />
+					</form>
+				</div>
+				<div class="col-xs-1">
+					<form asp-action="RemoveBook" method="post" style="margin:0;padding:0;">
+						<input hidden type="number" name="libraryID" value="@book.LibraryID" />
+						<input type="submit" class="btn btn-link" value="Delete" style="margin:0;padding:0;" />
+					</form>
+				</div>
+				
+			</div>
 		}
-	</tbody>
-</table>
+	}
+</div>

@@ -5,7 +5,7 @@
 	Layout = "~/Views/Shared/_MemberLayout.cshtml";
 }
 
-<h2>BrowseInventory</h2>
+<h2>Browse Books</h2>
 
 <div class="form-inline">
 	<div class="row">
@@ -18,7 +18,7 @@
 						<option value="author">Author</option>
 						<option value="libraryID">Library ID</option>
 					</select>
-					<input type="submit" value="Sort" class="btn btn-primary text-center" />
+					<input type="submit" value="Sort" class="btn btn-toolbar text-center" />
 				</div>
 			</form>
 		</div>
@@ -27,68 +27,43 @@
 				<label for="searchString">Search:</label>
 				<div class="form-inline">
 					<input type="text" size="50" name="searchString" class="form-control form-control-sm" />
-					<input type="submit" value="Search" class="btn btn-primary text-center" />
+					<input type="submit" value="Search" class="btn btn-toolbar text-center" />
 				</div>
 			</form>
-		</div>
-		<div class="col-xs-2">
-			<button class="btn btn-primary pull-right"  asp-action="Cart">View Cart</button>
-
 		</div>
 	</div>
 </div>
 
+<div>
+	@{
+		foreach (IBook book in Model.Books) {
+			<hr style="border-top: 1px solid; margin-top: 50px; margin-bottom:50px;" />
 
-<table class="table">
-	<thead>
-		<tr>
-			<th>Title</th>
-			<th>Author</th>
-			<th>Format</th>
-			<th>Genre</th>
-			<th>Description</th>
-			<th>ID</th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
+			<form asp-action="BookDetails" method="post">
+				<input hidden type="number" name="libraryID" value="@book.LibraryID" />
+				<input 
+					   style="text-align:left; margin-left:0; padding:0; font-size:200%; color:#000000; width:90%; font-style:italic" 
+					   type="submit" 
+					   class="btn btn-link" 
+					   value="@book.Title" />
+			</form>
+			<h4>By: @book.Author</h4>
+			<div class="row">
+				<div class="col-xs-9">
+					Description:
+					<textarea readonly style="width:100%; overflow:hidden; padding:10px;" rows="4">@book.Description</textarea>
+				</div>
 
-		@{
-			foreach (IBook book in Model.Books) {
-				<tr>
-
-					<td>
-						<form asp-action="BrowseInventory" method="post" style="margin:0;padding:0;">
+				@if (LibraryWebUI.Models.AccountRepository.LoggedInAccount != null) {
+					<div class="col-xs-2">
+						<form asp-action="ReserveBook" method="post" style="margin:0;padding:0;">
 							<input hidden type="number" name="libraryID" value="@book.LibraryID" />
-							<input type="submit" class="btn btn-link" value="@book.Title" style="margin:0;padding:0;" />
+							<input type="submit" class="btn btn-primary" value="Reserve" />
 						</form>
-					</td>
-					<td>
-						@book.Author
-					</td>
-					<td>
-						@book.Format
-					</td>
-					<td>
-						@book.Genre
-					</td>
-					<td>
-						@book.Description
-					</td>
-					<td>
-						@book.LibraryID
-					</td>
-					@if (Model.LoggedIn) {
-						<td>
-							<form asp-action="ReserveBook" method="post" style="margin:0;padding:0;">
-								<input hidden type="number" name="libraryID" value="@book.LibraryID" />
-								<input type="submit" class="btn btn-primary" value="Reserve" />
-							</form>
-						</td>
-					}
-					
-				</tr>
-			}
+					</div>
+				}
+				
+			</div>
 		}
-	</tbody>
-</table>
+	}
+</div>
