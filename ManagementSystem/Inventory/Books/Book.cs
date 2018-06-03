@@ -29,5 +29,21 @@ namespace CoreLibrary.Inventory
 		public string Description { get; set; } = "<Unknown>";
 
 		public int LengthOfLoan { get; set; } = 14;
+
+		public byte[] ImageBytes { get; set; } = null;
+
+		public bool InStock { get; set; }
+
+		public override bool Equals(object obj) {
+			if (obj == this) {
+				return true;
+			}
+			if (!(obj is IBook)) {
+				return false;
+			} else {
+				IBook book = (IBook) obj;
+				return book.LibraryID == this.LibraryID;
+			}
+		}
 	}
 }

@@ -109,7 +109,19 @@ namespace CoreLibrary.DBManagement.Handlers
 		}
 
 		public void CheckoutBook(IBook book, IAccount account) {
-			throw new NotImplementedException();
+			using (SqlConnection connection = DBManager.GetSqlConnection()) {
+				connection.Open();
+				using (SqlCommand command = new SqlCommand(StoredProcedures.CHECKOUT_BOOK, connection)) {
+					command.CommandType = System.Data.CommandType.StoredProcedure;
+					command.Parameters.AddWithValue("@libraryID", book.LibraryID);
+					command.Parameters.AddWithValue("@title", book.Title);
+					command.Parameters.AddWithValue("@checkoutDate", DateTime.Today);
+					command.Parameters.AddWithValue("@duedate", DateTime.Today.AddDays(book.LengthOfLoan));
+					command.Parameters.AddWithValue("@mediaType", MediaFormat.GetMediaKey(book.Format));
+					command.Parameters.AddWithValue("@borrowerEmail", account.Email);
+					command.ExecuteNonQuery();
+				}
+			}
 		}
 
 		public void CheckoutMovie(IMovie movie, IAccount borrower) {

@@ -9,8 +9,12 @@
 <h4><em>Originally: @Model.Book.Title by @Model.Book.Author</em></h4>
 <hr />
 <div class="container-fluid">
-	<form asp-action="EditBookResult" asp- method="post">
+	<form asp-action="EditBookResult" asp- method="post" enctype="multipart/form-data">
 		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		<div style="margin-bottom:20px">
+			<label for="imageFile">Image File</label>
+			<input name="imageFile" type="file" accept="image/*"/>
+		</div>
 		<div class="row">
 			<div hidden>
 				<input asp-for="@Model.Book.LibraryID" value="@Model.Book.LibraryID" />
@@ -78,7 +82,7 @@
 			</div>
 		</div>
 		<div class="text-center">
-			<input type="submit" value="Commit Update" class="btn btn-primary"/>
+			<input type="submit" value="Commit Update" class="btn btn-primary" />
 		</div>
 	</form>
 </div>

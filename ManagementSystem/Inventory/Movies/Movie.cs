@@ -14,5 +14,7 @@ namespace CoreLibrary.Inventory
 		public int LibraryID { get; set; }
 		public string Title { get; set; }
 		public string Description { get; set; } = "<Unknown>";
+		public byte[] ImageBytes { get; set; } = null;
+		public bool InStock { get; set; }
 	}
 }

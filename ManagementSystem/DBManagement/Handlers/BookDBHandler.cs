@@ -58,10 +58,12 @@ namespace CoreLibrary.DBManagement.Handlers
 							Publisher = reader.GetString(reader.GetOrdinal("Publisher")),
 							PublicationYear = reader.GetInt32(reader.GetOrdinal("Publication_Year")),
 							Description = reader.GetString(reader.GetOrdinal("Description")),
+							InStock = reader.GetBoolean(reader.GetOrdinal("In_Stock"))
 						};
 						int mediaKey = reader.GetInt32(reader.GetOrdinal("Format"));
 						string mediaFormat = MediaFormat.GetMediaFromKey(mediaKey);
 						book.Format = mediaFormat;
+						book.ImageBytes = InventoryManager.GetItemImage(book.LibraryID);
 						items.Add(book);
 						}
 					}
@@ -77,7 +79,8 @@ namespace CoreLibrary.DBManagement.Handlers
 				connection.Open();
 				// Add a new row to the Inventory_Books table
 				// Update the number of copies in Inventory_Master
-				using (SqlCommand command = new SqlCommand(DBManager.GetQueryTextFromResource(ADD_NEW_BOOK_QUERY_RESOURCE), connection)) {
+				using (SqlCommand command = new SqlCommand("AddNewBook", connection)) {
+					command.CommandType = System.Data.CommandType.StoredProcedure;
 					command.Parameters.AddWithValue("@libraryID", book.LibraryID);
 					command.Parameters.AddWithValue("@title", book.Title);
 					command.Parameters.AddWithValue("@author", book.Author);
@@ -89,7 +92,12 @@ namespace CoreLibrary.DBManagement.Handlers
 					command.Parameters.AddWithValue("@publisher", book.Publisher);
 					command.Parameters.AddWithValue("@publicationYear", book.PublicationYear);
 					command.Parameters.AddWithValue("@description", book.Description);
-					command.Parameters.AddWithValue("@media", MediaFormat.GetMediaKey(book.Format));
+					if (book.ImageBytes == null) {
+						command.Parameters.AddWithValue("@image", DBNull.Value);
+					} else {
+						command.Parameters.AddWithValue("@image", book.ImageBytes);
+					}
+					
 					command.ExecuteNonQuery();
 				}
 			}
@@ -102,7 +110,8 @@ namespace CoreLibrary.DBManagement.Handlers
 				connection.Open();
 				// Add a new row to the Inventory_Books table
 				// Update the number of copies in Inventory_Master
-				using (SqlCommand command = new SqlCommand(DBManager.GetQueryTextFromResource(UPDATE_BOOK_RESOURCE), connection)) {
+				using (SqlCommand command = new SqlCommand("UpdateBook", connection)) {
+					command.CommandType = System.Data.CommandType.StoredProcedure;
 					command.Parameters.AddWithValue("@libraryID", book.LibraryID);
 					command.Parameters.AddWithValue("@title", book.Title);
 					command.Parameters.AddWithValue("@author", book.Author);
@@ -115,7 +124,11 @@ namespace CoreLibrary.DBManagement.Handlers
 					command.Parameters.AddWithValue("@publisher", book.Publisher);
 					command.Parameters.AddWithValue("@publicationYear", book.PublicationYear);
 					command.Parameters.AddWithValue("@description", book.Description);
-					command.Parameters.AddWithValue("@media", MediaFormat.GetMediaKey(book.Format));
+					if (book.ImageBytes == null) {
+						command.Parameters.AddWithValue("@image", DBNull.Value);
+					} else {
+						command.Parameters.AddWithValue("@image", book.ImageBytes);
+					}
 					command.ExecuteNonQuery();
 				}
 			}
@@ -143,22 +156,12 @@ namespace CoreLibrary.DBManagement.Handlers
 		public bool CheckoutBook(IBook book, IAccount member) {
 			using (SqlConnection connection = DBManager.GetSqlConnection()) {
 				connection.Open();
-				int originalStock = -1;
-				// Get the number of copies in stock before checking out
-				using (SqlCommand command = new SqlCommand(DBManager.GetQueryTextFromResource(BOOK_AVAILABILITY_RESOURCE), connection))
-				using (SqlDataReader reader = command.ExecuteReader()) {
-					// Read all the data from reader and put the info into a book
-					while (reader.Read()) {
-						originalStock = reader.GetInt16(reader.GetOrdinal("Copies_In_Stock"));
-					}
-				}
 
 				using (SqlCommand command = new SqlCommand(DBManager.GetQueryTextFromResource(CHECKOUT_BOOK_RESOURCE), connection)) {
 					command.Parameters.AddWithValue("@libraryID", book.LibraryID);
 					command.Parameters.AddWithValue("@checkoutDate", DateTime.Today);
 					command.Parameters.AddWithValue("@dueDate", DateTime.Today.AddDays(book.LengthOfLoan));
 					command.Parameters.AddWithValue("@mediaType", MediaFormat.GetMediaKey(book.Format));
-					command.Parameters.AddWithValue("@copiesInStockUpdated", --originalStock);
 					command.ExecuteNonQuery();
 				}
 
@@ -172,19 +175,10 @@ namespace CoreLibrary.DBManagement.Handlers
 		public bool ReturnBook(IBook book) {
 			using (SqlConnection connection = DBManager.GetSqlConnection()) {
 				connection.Open();
-				int originalStock = -1;
-				// Get the number of copies in stock before checking out
-				using (SqlCommand command = new SqlCommand(DBManager.GetQueryTextFromResource(BOOK_AVAILABILITY_RESOURCE), connection))
-				using (SqlDataReader reader = command.ExecuteReader()) {
-					// Read all the data from reader and put the info into a book
-					while (reader.Read()) {
-						originalStock = reader.GetInt16(reader.GetOrdinal("Copies_In_Stock"));
-					}
-				}
 
-				using (SqlCommand command = new SqlCommand(DBManager.GetQueryTextFromResource(RETURN_BOOK_RESOURCE), connection)) {
+				using (SqlCommand command = new SqlCommand(StoredProcedures.RETURN_BOOK, connection)) {
+					command.CommandType = System.Data.CommandType.StoredProcedure;
 					command.Parameters.AddWithValue("@libraryID", book.LibraryID);
-					command.Parameters.AddWithValue("@copiesInStockUpdated", ++originalStock);
 					command.ExecuteNonQuery();
 				}
 
@@ -272,13 +266,43 @@ namespace CoreLibrary.DBManagement.Handlers
 		}
 
 		public IEnumerable<IBook> GetCheckedOutBooks() {
-			SqlCommand command = new SqlCommand(
-			"SELECT * " +
-			"FROM Inventory_Books JOIN Loaned_Items" +
-			"ON (Loaned_Items.LIbrary_ID=Inventory_Books.Library_ID)",
-			DBManager.GetSqlConnection());
+			// Container for the queried books
+			List<IBook> items = new List<IBook>();
+			// Open connection to the database
+			using (SqlConnection connection = DBManager.GetSqlConnection()) {
+				connection.Open();
+				// Initiate a data reader via the command object
+				using (SqlCommand command = new SqlCommand(StoredProcedures.GET_CHECKED_OUT_BOOKS, connection)) {
+					command.CommandType = System.Data.CommandType.StoredProcedure;
+					using (SqlDataReader reader = command.ExecuteReader()) {
+						// Read all the data from reader and put the info into a book
+						while (reader.Read()) {
+							IBook book = new Book {
+								LibraryID = reader.GetInt32(reader.GetOrdinal("Library_ID")),
+								Title = reader.GetString(reader.GetOrdinal("Title")),
+								Author = reader.GetString(reader.GetOrdinal("Author")),
+								ISBN10 = reader.GetString(reader.GetOrdinal("ISBN10")),
+								ISBN13 = reader.GetString(reader.GetOrdinal("ISBN13")),
+								Length = reader.GetInt32(reader.GetOrdinal("Length")),
+								Genre = reader.GetString(reader.GetOrdinal("Genre")),
+								Publisher = reader.GetString(reader.GetOrdinal("Publisher")),
+								PublicationYear = reader.GetInt32(reader.GetOrdinal("Publication_Year")),
+								Description = reader.GetString(reader.GetOrdinal("Description")),
+								InStock = reader.GetBoolean(reader.GetOrdinal("In_Stock"))
+							};
+							int mediaKey = reader.GetInt32(reader.GetOrdinal("Format"));
+							string mediaFormat = MediaFormat.GetMediaFromKey(mediaKey);
+							book.Format = mediaFormat;
+							book.ImageBytes = InventoryManager.GetItemImage(book.LibraryID);
+							items.Add(book);
+						}
+					}
+					// Possibly unnecessary. When in doubt, be explicit
+					connection.Close();
+				}
+			}
 
-			return this.GetBooksByCommand(command);
+			return items;
 		}
 
 		public void RemoveBook(IBook book) {

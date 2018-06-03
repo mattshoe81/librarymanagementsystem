@@ -10,7 +10,7 @@ namespace CoreLibrary.Loans
 {
 	public class LoanManager : ILoanManager {
 
-		public DateTime LoanItem(ILibraryItem item, IAccount borrower) {
+		public DateTime LoanItem(IBook item, IAccount borrower) {
 			DateTime dueDate;
 			IAccountDBHandler dbHandler = DBManager.NewAccountDBHandler();
 			switch (item.Format) {
@@ -34,7 +34,7 @@ namespace CoreLibrary.Loans
 			return dueDate;
 		}
 
-		public void ReturnItem(ILibraryItem item, IAccount borrower) {
+		public void ReturnItem(IBook item, IAccount borrower) {
 			throw new NotImplementedException();
 		}
 	}

@@ -9,77 +9,77 @@
 
 <hr />
 <div class="container-fluid">
-		<form asp-action="NewBook" method="post">
-			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-			<div>
-				<label for="bookImage">Image File</label>
-				<input name="bookImage" type="file" />
+	<form asp-action="NewBook" asp- method="post" enctype="multipart/form-data">
+		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		<div style="margin-bottom:20px">
+			<label for="imageFile">Image File</label>
+			<input name="imageFile" type="file" accept="image/*" />
+		</div>
+		<div class="row">
+			<div class="form-group col-xs-6">
+				<label asp-for="@Model.Book.Title" class="control-label"></label>
+				<input asp-for="@Model.Book.Title" class="form-control form-control-sm" value="@Model.Book.Title" required />
+				<span asp-validation-for="@Model.Book.Title" class="text-danger"></span>
 			</div>
-			<div class="row">
-				<div class="form-group col-xs-6">
-					<label asp-for="@Model.Book.Title" class="control-label"></label>
-					<input asp-for="@Model.Book.Title" class="form-control form-control-sm" value="@Model.Book.Title" required />
-					<span asp-validation-for="@Model.Book.Title" class="text-danger"></span>
-				</div>
-				<div class="form-group col-xs-6">
-					<label asp-for="@Model.Book.Author" class="control-label"></label>
-					<input asp-for="@Model.Book.Author" class="form-control form-control-sm" value="@Model.Book.Author" required />
-					<span asp-validation-for="@Model.Book.Author" class="text-danger"></span>
-				</div>
+			<div class="form-group col-xs-6">
+				<label asp-for="@Model.Book.Author" class="control-label"></label>
+				<input asp-for="@Model.Book.Author" class="form-control form-control-sm" value="@Model.Book.Author" required />
+				<span asp-validation-for="@Model.Book.Author" class="text-danger"></span>
 			</div>
-			<div class="form-group">
-				<label asp-for="@Model.Book.Description" class="control-label"></label>
-				<textarea asp-for="@Model.Book.Description" class="form-control form-control-sm" rows="3" value="@Model.Book.Description" required ></textarea>
-				<span asp-validation-for="@Model.Book.Description" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="@Model.Book.Description" class="control-label"></label>
+			<textarea asp-for="@Model.Book.Description" class="form-control form-control-sm" rows="3" value="@Model.Book.Description" required></textarea>
+			<span asp-validation-for="@Model.Book.Description" class="text-danger"></span>
+		</div>
+		<div class="row">
+			<div class="form-group col-xs-4">
+				<label asp-for="@Model.Book.Format" class="control-label"></label>
+				<select asp-for="@Model.Book.Format" class="form-control form-control-sm">
+					<option value="Paperback">Paperback</option>
+					<option value="Hardcover">Hardcover</option>
+				</select>
+				<span asp-validation-for="@Model.Book.Format" class="text-danger"></span>
 			</div>
-			<div class="row">
-				<div class="form-group col-xs-4">
-					<label asp-for="@Model.Book.Format" class="control-label"></label>
-					<select asp-for="@Model.Book.Format" class="form-control form-control-sm">
-						<option value="Paperback">Paperback</option>
-						<option value="Hardcover">Hardcover</option>
-					</select>
-					<span asp-validation-for="@Model.Book.Format" class="text-danger"></span>
-				</div>
-				<div class="form-group col-xs-4">
-					<label asp-for="@Model.Book.Length" class="control-label"></label>
-					<input asp-for="@Model.Book.Length" class="form-control form-control-sm" min="0" value="@Model.Book.Length" required />
-					<span asp-validation-for="@Model.Book.Length" class="text-danger"></span> 
-				</div>
-				<div class="form-group col-xs-4">
-					<label asp-for="@Model.Book.Genre" class="control-label"></label>
-					<input asp-for="@Model.Book.Genre" class="form-control form-control-sm" value="@Model.Book.Genre" required />
-					<span asp-validation-for="@Model.Book.Genre" class="text-danger"></span>
-				</div>
+			<div class="form-group col-xs-4">
+				<label asp-for="@Model.Book.Length" class="control-label"></label>
+				<input asp-for="@Model.Book.Length" class="form-control form-control-sm" min="0" value="@Model.Book.Length" required />
+				<span asp-validation-for="@Model.Book.Length" class="text-danger"></span>
 			</div>
-			<div class="row">
-				<div class="form-group col-xs-9">
-					<label asp-for="@Model.Book.Publisher" class="control-label"></label>
-					<input asp-for="@Model.Book.Publisher" class="form-control form-control-sm" value="@Model.Book.Publisher" required />
-					<span asp-validation-for="@Model.Book.Publisher" class="text-danger"></span>
-				</div>
-				<div class="form-group col-xs-3">
-					<label asp-for="@Model.Book.PublicationYear" class="control-label"></label>
-					<input asp-for="@Model.Book.PublicationYear" class="form-control form-control-sm" min="0" value="@Model.Book.PublicationYear" required />
-					<span asp-validation-for="@Model.Book.PublicationYear" class="text-danger"></span>
-				</div>
-			</div>			
-			<div class="row">
-				<div class="form-group col-xs-6">
-					<label asp-for="@Model.Book.ISBN10" class="control-label"></label>
-					<input asp-for="@Model.Book.ISBN10" class="form-control form-control-sm" value="@Model.Book.ISBN10" required />
-					<span asp-validation-for="@Model.Book.ISBN10" class="text-danger"></span>
-				</div>
-				<div class="form-group col-xs-6">
-					<label asp-for="@Model.Book.ISBN13" class="control-label"></label>
-					<input asp-for="@Model.Book.ISBN13" class="form-control form-control-sm" value="@Model.Book.ISBN13" required />
-					<span asp-validation-for="@Model.Book.ISBN13" class="text-danger"></span>
-				</div>
-			</div>			
-				<div class="text-center">
-					<input type="submit" value="Create" class="btn btn-primary" required />
-				</div>
-		</form>
+			<div class="form-group col-xs-4">
+				<label asp-for="@Model.Book.Genre" class="control-label"></label>
+				<input asp-for="@Model.Book.Genre" class="form-control form-control-sm" value="@Model.Book.Genre" required />
+				<span asp-validation-for="@Model.Book.Genre" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-xs-9">
+				<label asp-for="@Model.Book.Publisher" class="control-label"></label>
+				<input asp-for="@Model.Book.Publisher" class="form-control form-control-sm" value="@Model.Book.Publisher" required />
+				<span asp-validation-for="@Model.Book.Publisher" class="text-danger"></span>
+			</div>
+			<div class="form-group col-xs-3">
+				<label asp-for="@Model.Book.PublicationYear" class="control-label"></label>
+				<input asp-for="@Model.Book.PublicationYear" class="form-control form-control-sm" min="0" value="@Model.Book.PublicationYear" required />
+				<span asp-validation-for="@Model.Book.PublicationYear" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-xs-6">
+				<label asp-for="@Model.Book.ISBN10" class="control-label"></label>
+				<input asp-for="@Model.Book.ISBN10" class="form-control form-control-sm" value="@Model.Book.ISBN10" required />
+				<span asp-validation-for="@Model.Book.ISBN10" class="text-danger"></span>
+			</div>
+			<div class="form-group col-xs-6">
+				<label asp-for="@Model.Book.ISBN13" class="control-label"></label>
+				<input asp-for="@Model.Book.ISBN13" class="form-control form-control-sm" value="@Model.Book.ISBN13" required />
+				<span asp-validation-for="@Model.Book.ISBN13" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="text-center">
+			<input type="submit" value="Create" class="btn btn-primary" required />
+		</div>
+	</form>
     </div>
 
 

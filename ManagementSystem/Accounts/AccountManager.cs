@@ -39,5 +39,9 @@ namespace CoreLibrary.Accounts
 		public static void CheckoutBook(IBook book, IAccount account) {
 			DBManagement.DBManager.NewAccountDBHandler().CheckoutBook(book, account);
 		}
+
+		public static void ReturnBook(IBook book) {
+			DBManagement.DBManager.NewBookDBHandler().ReturnBook(book);
+		}
 	}
 }

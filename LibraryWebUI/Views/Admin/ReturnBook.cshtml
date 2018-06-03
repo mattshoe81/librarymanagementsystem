@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewData["Title"] = "Return Book";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<p>Enter the library ID for the book to return:</p>
+<form asp-action="ReturnBook" method="post">
+	<div>
+		<label for="libraryID">Library ID:</label>
+		<input type="number" name="libraryID" min="0" />
+		<input type="submit" value="Find" />
+	</div>
+</form>
+

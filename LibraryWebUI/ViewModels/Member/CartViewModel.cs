@@ -9,7 +9,7 @@ namespace LibraryWebUI.ViewModels.Member
 {
     public class CartViewModel
     {
-		public List<ILibraryItem> CartContents = Cart.CartContents;
+		public List<IBook> CartContents = Cart.CartContents;
 
     }
 }

@@ -15,5 +15,9 @@ namespace CoreLibrary.Inventory
 
 		string Description { get; set; }
 
+		byte[] ImageBytes { get; set; }
+		
+		bool InStock { get; set; }
+
 	}
 }

@@ -9,6 +9,9 @@ using CoreLibrary.Inventory;
 using CoreLibrary.Members;
 using LibraryWebUI.ViewModels.Admin;
 using LibraryWebUI.ViewModels;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using CoreLibrary.Accounts;
 
 namespace LibraryWebUI.Controllers
 {
@@ -62,11 +65,19 @@ namespace LibraryWebUI.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult NewBook(Book book) {
+		public IActionResult NewBook(Book book, IFormFile imageFile) {
+			if (imageFile != null) {
+				using (var stream = new MemoryStream()) {
+					imageFile.CopyTo(stream);
+					book.ImageBytes = stream.ToArray();
+				}
+			} else {
+				book.ImageBytes = InventoryManager.GetItemImage(book.LibraryID);
+			}
 			book.LibraryID = InventoryManager.GetNewLibraryID();
 			CoreLibrary.Inventory.InventoryManager.AddNewBook(book);
 			NewBookViewModel viewModel = new NewBookViewModel();
-			viewModel.Book = book;
+			viewModel.Book = SearchUtility.GetBookByLibraryID(book.LibraryID);
 
 			return View("NewBookResult", viewModel);
 		}
@@ -78,7 +89,16 @@ namespace LibraryWebUI.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult EditBookResult(Book book) {
+		public IActionResult EditBookResult(Book book, IFormFile imageFile) {
+			if (imageFile != null) {
+				using (var stream = new MemoryStream()) {
+					imageFile.CopyTo(stream);
+					book.ImageBytes = stream.ToArray();
+				}
+			} else {
+				book.ImageBytes = InventoryManager.GetItemImage(book.LibraryID);
+			}
+			
 			InventoryManager.UpdateBook(book);
 			EditBookResultViewModel viewModel = new EditBookResultViewModel();
 			viewModel.Book = SearchUtility.GetBookByLibraryID(book.LibraryID);
@@ -181,6 +201,24 @@ namespace LibraryWebUI.Controllers
 			return View(viewModel);
 		}
 
+		[HttpGet]
+		public IActionResult ReturnBook() {
+			return View();
+		}
+
+		[HttpPost]
+		public IActionResult ReturnBook(int libraryID) {
+			IBook book = SearchUtility.GetBookByLibraryID(libraryID);
+			if (!book.InStock) {
+				AccountManager.ReturnBook(book);
+			}
+
+			return View("Loans", new LoansViewModel());	
+		}
+
+		public IActionResult Loans() {
+			return View(new LoansViewModel());
+		}
 
     }
 }

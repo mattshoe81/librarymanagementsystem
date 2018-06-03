@@ -44,7 +44,6 @@ namespace CoreLibrary.Inventory
 
 						reader.Read();
 						count = reader.GetInt32(0);
-
 					}
 				}
 			}
@@ -55,8 +54,27 @@ namespace CoreLibrary.Inventory
 		public static void RemoveBook(IBook book) {
 			DBManagement.DBManager.NewBookDBHandler().RemoveBook(book);
 		}
-		
 
+
+		public static byte[] GetItemImage(int libraryID) {
+			byte[] image = null;
+			using (SqlConnection connection = DBManagement.DBManager.GetSqlConnection()) {
+				connection.Open();
+
+				using (SqlCommand command = new SqlCommand("GetItemImage", connection)) {
+					command.CommandType = System.Data.CommandType.StoredProcedure;
+					command.Parameters.AddWithValue("@libraryID", libraryID);
+
+					image = (byte[]) command.ExecuteScalar();
+				}
+			}
+
+			return image;
+		}
+
+		public static IEnumerable<IBook> GetCheckedOutBooks() {
+			return DBManagement.DBManager.NewBookDBHandler().GetCheckedOutBooks();
+		}
 
 
 	}

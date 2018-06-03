@@ -81,14 +81,15 @@ namespace LibraryWebUI.Controllers
 			if (account.Password == passwordVerification) {
 				if (!AccountManager.VerifyMemberEmail(account) && !AccountManager.VerifyAdminEmail(account)) {
 					AccountManager.CreateMemberAccount(account);
-					view = View("Index", new LoginViewModel());
+					AccountRepository.LoggedInAccount = account;
+					view = View("MemberHome");
 				} else {
 					view = View(new CreateAccountViewModel("Email already in use"));
 				}
 			} else {
 				view = View(new CreateAccountViewModel("Passwords do not match"));
 			}
-			
+		
 
 			return view;
 		}

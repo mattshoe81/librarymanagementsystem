@@ -9,9 +9,9 @@ namespace CoreLibrary.Loans
     interface ILoanManager
     {
 
-		DateTime LoanItem(ILibraryItem item, IAccount borrower);
+		DateTime LoanItem(IBook item, IAccount borrower);
 
-		void ReturnItem(ILibraryItem item, IAccount borrower);
+		void ReturnItem(IBook item, IAccount borrower);
 
     }
 }

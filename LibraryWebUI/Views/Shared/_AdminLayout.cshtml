@@ -20,12 +20,13 @@
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li><a asp-area="" asp-controller="Admin" asp-action="AdminHome">Home</a></li>
+					<li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
 					<li><a asp-area="" asp-controller="Admin" asp-action="Inventory">Inventory</a></li>
 					<li><a asp-area="" asp-controller="Admin" asp-action="Search">Search</a></li>
 				</ul>
 				@if (LibraryWebUI.Models.AccountRepository.LoggedInAccount != null) {
 					<a class="navbar-text navbar-right" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+					<a class="navbar-text navbar-right" asp-area="" asp-controller="Admin" asp-action="Loans">Loans</a>
 				}
 			</div>
 		</div>
