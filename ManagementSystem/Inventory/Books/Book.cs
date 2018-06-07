@@ -28,7 +28,7 @@ namespace CoreLibrary.Inventory
 
 		public string Description { get; set; } = "<Unknown>";
 
-		public int LengthOfLoan { get; set; } = 14;
+		public int LengthOfLoan { get; set; } = 7;
 
 		public byte[] ImageBytes { get; set; } = null;
 

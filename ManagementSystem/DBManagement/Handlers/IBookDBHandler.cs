@@ -33,5 +33,9 @@ namespace CoreLibrary.DBManagement.Handlers
 		bool AddNewBook(IBook book);
 
 		void UpdateBook(IBook book);
+
+		IEnumerable<IBook> GetCheckedOutBooksByUser(string email);
+
+		DateTime GetDueDate(int libraryID);
 	}
 }

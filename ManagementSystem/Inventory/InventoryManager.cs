@@ -76,6 +76,14 @@ namespace CoreLibrary.Inventory
 			return DBManagement.DBManager.NewBookDBHandler().GetCheckedOutBooks();
 		}
 
+		public static IEnumerable<IBook> GetCheckedOutBooksByUser(string email) {
+			return DBManagement.DBManager.NewBookDBHandler().GetCheckedOutBooksByUser(email);
+		}
+
+		public static DateTime GetDueDate(int libraryID) {
+			return DBManagement.DBManager.NewBookDBHandler().GetDueDate(libraryID);
+		}
+
 
 	}
 }

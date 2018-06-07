@@ -9,5 +9,8 @@ namespace CoreLibrary.DBManagement
 		internal const string CHECKOUT_BOOK = "CheckoutBook";
 		internal const string RETURN_BOOK = "ReturnBook";
 		internal const string GET_CHECKED_OUT_BOOKS = "GetCheckedOutBooks";
-    }
+		internal const string GET_CHECKED_OUT_BOOKS_BY_USER = "GetCheckedOutBooksByUser";
+		internal const string GET_DUE_DATE = "GetDueDate";
+
+	}
 }

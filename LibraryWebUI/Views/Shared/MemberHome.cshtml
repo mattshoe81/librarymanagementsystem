@@ -1,11 +1,75 @@
-﻿
-
+﻿@model LibraryWebUI.ViewModels.Member.MemberHomeViewModel
+@using LibraryWebUI.Models
+@using CoreLibrary.Inventory
+@using CoreLibrary.Searching
 
 @{
-    ViewData["Title"] = "Home";
-    Layout = "~/Views/Shared/_MemberLayout.cshtml";
+	ViewData["Title"] = "Home";
+	ViewData["StyleSheet"] = "member-home.css";
+	Layout = "~/Views/Shared/_MemberLayout.cshtml";
 }
 
-<h2>MemberHome</h2>
+<h2 id="welcome-message">Welcome, @AccountRepository.LoggedInAccount.FirstName @AccountRepository.LoggedInAccount.LastName!</h2>
+
+<!-- Mobile Content -->
+<div id="mobile-content">
+	<h4><span id="loaned-books-title" class="bold underline">Your Checked Out Books:</span></h4>
+	<div class="row">
+		@foreach (IBook book in Model.LoanedBooks) {
+			<div class="col-xs-3">
+				<a href="@Url.Action("BookDetails", "Member", new { libraryID=@book.LibraryID })">
+					<img id="loaned-item-image" class="img-rounded img-responsive text-center" src="@($"data:image/png;base64,{Convert.ToBase64String(book.ImageBytes)}")">
+				</a>
+				<h5 id="due-date" class="text-center">
+					@if (DateTime.Today.Day >= InventoryManager.GetDueDate(book.LibraryID).Day) {
+						<font id="overdue">OVERDUE</font>
+					} else {
+						@:Due: @(InventoryManager.GetDueDate(book.LibraryID).ToString("MM/dd"))
+					}
+				</h5>
+			</div>
+		}
+	</div>
+</div>
+
+
+	<!-- Checked out books -->
+	@if (AccountRepository.LoggedInAccount != null && Model.LoanedBooks.Count() > 0) {
+		<div id="loaned-books" class="col-xs-2">
+			<h4 class="text-center"><span id="loaned-books-title" class="bold underline">Your Checked Out Books:</span></h4>
+			<div class="row">
+				@foreach (IBook book in Model.LoanedBooks) {
+					<div class="col-xs-12">
+						<hr id="loaned-item-divider" />
+						<a href="@Url.Action("BookDetails", "Member", new { libraryID=@book.LibraryID })">
+							<img id="loaned-item-image" class="img-rounded img-responsive text-center" src="@($"data:image/png;base64,{Convert.ToBase64String(book.ImageBytes)}")">
+						</a>
+						<h5 id="due-date" class="text-center">
+							@if (DateTime.Today.Day >= InventoryManager.GetDueDate(book.LibraryID).Day) {
+								<font id="overdue">OVERDUE</font>
+							} else {
+								@:Due: @(InventoryManager.GetDueDate(book.LibraryID).ToString("MM/dd"))
+							}
+						</h5>
+					</div>
+				}
+			</div>
+		</div>
+	}
+
+	<!-- Recently Added -->
+	<h4>Recently Added</h4>
+	<div class="row">
+		@foreach (IBook book in SearchUtility.GetBooks().OrderByDescending(book => book.LibraryID).Take(4)) {
+			<div class="col-xs-2">
+				<a href="@Url.Action("BookDetails", "Member", new { libraryID=@book.LibraryID })">
+					<img class="img-rounded img-responsive text-center" src="@($"data:image/png;base64,{Convert.ToBase64String(book.ImageBytes)}")">
+				</a>
+			</div>
+		}
+	</div>
+
+
+
 
 

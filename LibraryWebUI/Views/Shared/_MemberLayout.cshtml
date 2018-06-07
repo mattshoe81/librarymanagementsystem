@@ -6,6 +6,10 @@
 	<title>@ViewData["Title"]</title>
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
 	<link rel="stylesheet" href="~/css/site.css" />
+	<link rel="stylesheet" href="~/css/master.css" />
+	@if (ViewData["StyleSheet"] != null && (string)ViewData["StyleSheet"] != "") {
+		<link rel="stylesheet" href="~/css/@ViewData["StyleSheet"]" />
+	}
 </head>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -25,12 +29,16 @@
 						<li><a asp-area="" asp-controller="Member" asp-action="BrowseInventory">Browse</a></li>
 					} else {
 						<li><a asp-area="" asp-controller="Member" asp-action="MemberHome">Home</a></li>
-						<li><a asp-area="" asp-controller="Member" asp-action="BrowseInventory">Browse</a></li>
+						<li><a asp-area="" asp-controller="Member" asp-action="NewBrowseSession">Browse</a></li>
 						<li><a asp-area="" asp-controller="Member" asp-action="Cart">Cart</a></li>
 					}
 				</ul>
 				@if (LibraryWebUI.Models.AccountRepository.LoggedInAccount != null) {
-					<a class="navbar-text navbar-right" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+					<div id="right-nav">
+						<a id="logout-nav" class="navbar-text navbar-right" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+						<a id="account-nav" class="navbar-text navbar-right" asp-area="" asp-controller="Member" asp-action="AccountDetails">Account</a>
+					</div>
+					
 				}
 
 			</div>

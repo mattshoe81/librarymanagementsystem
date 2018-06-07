@@ -1,0 +1,59 @@
+﻿#welcome-message {
+	margin-bottom: 50px;
+	margin-top: 25px;
+}
+
+#loaned-books {
+	float: right;
+	border: 1px solid;
+	border-radius: 15px;
+}
+
+#loaned-books-title {
+	margin-bottom: 20px;
+}
+
+#loaned-item-divider {
+	margin: 0;
+	margin-top: 15px;
+	border-color: inherit;
+}
+
+#loaned-item-image {
+	margin-top: 8px;
+	margin-bottom: 0;
+	padding: 7px;
+}
+
+#due-date {
+	margin-bottom: 8px;
+	margin-top: 0;
+	padding: 0;
+}
+
+@media screen and (max-width: 1300px) {
+	#loaned-books {
+		margin-right: 2px;
+	}
+}
+
+
+@media screen and (max-width: 700px) {
+	#due-date, #loaned-books-title {
+		font-size: 80%;
+	}
+}
+
+@media screen and (max-width: 550px) {
+	#loaned-books {
+		display: none;
+	}
+
+	#loaned-books-title {
+		text-align: left;
+	}
+
+	#due-date {
+		font-size: 115%;
+	}
+}

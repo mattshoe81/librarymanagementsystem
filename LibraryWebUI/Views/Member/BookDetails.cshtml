@@ -3,48 +3,57 @@
 @{
 	ViewData["Title"] = "BookDetails";
 	Layout = "~/Views/Shared/_MemberLayout.cshtml";
+	ViewData["StyleSheet"] = "book-details.css";
 }
 
-
-<hr style="border-top: 1px solid; margin-top: 50px; margin-bottom:50px;" />
+<hr class="hr-divider-bottom" />
 
 <div class="row">
 
 	<div class="col-xs-2">
 		<img src="@($"data:image/png;base64,{Convert.ToBase64String(Model.Book.ImageBytes)}")" class="img-responsive center-block">
-		<p style="border-top:solid 1px; margin-top:10px; padding-top:10px;">
-			<span style="font-weight:bold;">ISBN10: </span> <em>@Model.Book.ISBN10</em> <br />
-			<span style="font-weight:bold;">ISBN13: </span> <em>@Model.Book.ISBN13</em> <br />
-			<span style="font-weight:bold;">Length: </span> <em>@Model.Book.Length  pages</em> <br />
-			<span style="font-weight:bold;">Publisher: </span> <em>@Model.Book.Publisher</em> <br />
-			<span style="font-weight:bold;">Publication Year: </span> <em>@Model.Book.PublicationYear</em> <br />
+		<p id="details-misc" class="divider-top">
+			<span class="bold">ISBN10: </span> <span class="italic">@Model.Book.ISBN10</span> <br />
+			<span class="bold">ISBN13: </span> <span class="italic">@Model.Book.ISBN13</span> <br />
+			<span class="bold">Length: </span> <span class="italic">@Model.Book.Length  pages</span> <br />
+			<span class="bold">Publisher: </span> <span class="italic">@Model.Book.Publisher</span> <br />
+			<span class="bold">Publication Year: </span> <span class="italic">@Model.Book.PublicationYear</span> <br />
 		</p>
 	</div>
 
 	<div class="col-xs-10">
-		<h1><span style="font-weight:bold; font-style:italic">@Model.Book.Title</span></h1>
-		<h4 style="margin-top:0;"><span style="font-weight:bold;">By: </span> <em>@Model.Book.Author</em></h4>
+		<h1 class="bold italic">@Model.Book.Title</h1>
+		<h4 class="author"><span class="bold">By: </span> <span class="italic">@Model.Book.Author</span></h4>
 		<div class="row">
 			<div class="col-xs-11">
 				<h6>
-					<span style="font-weight:bold;">Length: </span> <em>@Model.Book.Length pages</em> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-					<span style="font-weight:bold;">Genre: </span> <em>@Model.Book.Genre</em>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-					<span style="font-weight:bold;">ID#: </span> <em>@Model.Book.LibraryID</em>
+					<span class="bold">Length: </span> <span class="italic">@Model.Book.Length pages</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+					<span class="bold">Genre: </span> <span class="italic">@Model.Book.Genre</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+					<span class="bold">ID#: </span> <span class="italic">@Model.Book.LibraryID</span>
 				</h6>
 				<p style="border-top:1px solid; margin-top:15px;padding-top:15px; text-align:justify;">@Model.Book.Description</p>
 			</div>
 		</div>
 
-		@if (LibraryWebUI.Models.AccountRepository.LoggedInAccount != null) {
-			<div class="col-xs-11">
-				<div class="text-center">
-					<form asp-action="AddToCart" method="post" style="margin:0;padding:0;">
-						<input hidden type="number" name="libraryID" value="@Model.Book.LibraryID" />
-						<input type="submit" class="btn btn-primary" value="Reserve" />
-					</form>
-				</div>
-			</div>
-			
+		@if (LibraryWebUI.Models.AccountRepository.LoggedInAccount != null && Model.Book.InStock) {
+			<form id="reserve" class="pull-right" asp-action="AddToCart" method="post">
+				<input hidden type="number" name="libraryID" value="@Model.Book.LibraryID" />
+				@if (LibraryWebUI.Models.Cart.CartContents.Contains(Model.Book)) {
+					<input type="submit" disabled class="btn btn-success" value="Already In Cart!" />
+				} else {
+					<input type="submit" class="btn btn-success" value="Reserve Now!" />
+
+				}
+			</form>
+		} else {
+			<p id="reserve" class="pull-right">
+				@if (Model.Book.InStock) {
+					@: In Stock!
+				} else {
+					@: Not In Stock!
+				}
+			</p>
+
 		}
 	</div>
 </div>

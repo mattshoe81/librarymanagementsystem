@@ -1,11 +1,18 @@
 ﻿@model LoginViewModel
 
-@{ ViewData["Title"] = "Home"; }
+@{ 
+	ViewData["Title"] = "Home";
+	ViewData["StyleSheet"] = "index.css";
+	Layout = "~/Views/Shared/_MemberLayout.cshtml";
+}
 
-<h1 class="text-center">Welcome to my personal library!</h1>
+<div id="welcome-container">
+	<h1 id="welcome">Welcome to my personal library!</h1>
+</div>
+
 <div class="row">
-	<div class="col-xs-4">
-		<form asp-action="DirectLogin" method="post">
+	<div id="login-container">
+		<form id="login-form" asp-action="DirectLogin" method="post">
 			<div class="login-verification-info">
 				@foreach (string error in Model.LoginErrorInfo) {
 					error.ToString();
@@ -20,15 +27,20 @@
 				<label asp-for="@Model.LoginInfo.Password">Password</label>
 				<input asp-for="@Model.LoginInfo.Password" type="password" class="form-control" placeholder="Enter Password">
 			</div>
-			<button type="submit" class="btn btn-primary">Submit</button>
+			<div id="submit-login-container">
+				<button id="submit-login" type="submit" class="btn btn-primary text-center">Submit</button>
+			</div>
+			
 		</form>
+
+		<div id="create-account-container">
+			<div class="text-center">
+				<form asp-action="CreateAccount" method="get">
+					<label style="display: block;">Not a Member?</label>
+					<input type="submit" class="btn btn-md" value="Create Account!" />
+				</form>
+			</div>
+		</div>
 	</div>	
-	<div class="col-xs-6">
-		<div class="text-center">
-			<form asp-action="CreateAccount" method="get" style="margin-top:70px;">
-				<label>Not a Member?</label>
-				<input type="submit" class="btn btn-lg" value="Create Account!" />
-			</form>
-		</div>		
-	</div>
+	
 </div>

@@ -1,0 +1,64 @@
+﻿#welcome {
+	word-wrap: break-word;
+	text-align: center;
+}
+
+#welcome-container {
+	margin: 0;
+}
+
+#login-container {
+	margin: auto;
+	width: 90%;
+}
+
+#login-form {
+	float: left;
+	width: 35%;
+}
+
+#create-account-container {
+	display: inline-block;
+	width: 30%;
+	clear: left;
+	margin-left: 30px;
+	margin-top: 10%;
+}
+
+@media screen and (max-width: 650px) {
+	#login-form {
+		float: left;
+		width: 50%;
+	}
+
+	#create-account-container {
+		display: inline-block;
+		width: 30%;
+		clear: left;
+		margin-left: 30px;
+		margin-top: 10%;
+	}
+}
+
+@media screen and (max-width: 450px) {
+	#login-form {
+		width: 100%;
+	}
+
+	#create-account-container {
+		display: block;
+		width: 100%;
+		margin: auto;
+		margin-top: 50px;
+		padding-top: 50px;
+		text-align: center;
+	}
+
+	#submit-login-container {
+		text-align: center;
+	}
+
+	#submit-login {
+		width: 90%;
+	}
+}

@@ -8,9 +8,17 @@ using CoreLibrary.DBManagement.Handlers;
 
 namespace CoreLibrary.DBManagement
 {
-    internal static class DBManager
-    {
-		private const string CONNECTION_STRING = @"Data Source=MATTSHOESURFACE\SQLEXPRESS;Initial Catalog=Library;Integrated Security=True";
+	internal class DBManager {
+		private readonly static string CONNECTION_STRING;
+
+		static DBManager(){
+			SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
+			builder.DataSource = "mattshoe.database.windows.net";
+			builder.UserID = "mattshoe81";
+			builder.Password = "8122Password";
+			builder.InitialCatalog = "Library";
+			CONNECTION_STRING = builder.ConnectionString;
+		}
 
 		internal static SqlConnection GetSqlConnection() {
 			return new SqlConnection(DBManager.CONNECTION_STRING);

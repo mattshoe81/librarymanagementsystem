@@ -8,6 +8,7 @@ using CoreLibrary.Members;
 using System.Linq;
 using System.Reflection;
 using System.IO;
+using System.Data.SqlTypes;
 
 namespace CoreLibrary.DBManagement.Handlers
 {
@@ -159,7 +160,7 @@ namespace CoreLibrary.DBManagement.Handlers
 
 				using (SqlCommand command = new SqlCommand(DBManager.GetQueryTextFromResource(CHECKOUT_BOOK_RESOURCE), connection)) {
 					command.Parameters.AddWithValue("@libraryID", book.LibraryID);
-					command.Parameters.AddWithValue("@checkoutDate", DateTime.Today);
+					command.Parameters.AddWithValue("@checkoutDate", SqlDateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")));
 					command.Parameters.AddWithValue("@dueDate", DateTime.Today.AddDays(book.LengthOfLoan));
 					command.Parameters.AddWithValue("@mediaType", MediaFormat.GetMediaKey(book.Format));
 					command.ExecuteNonQuery();
@@ -305,6 +306,47 @@ namespace CoreLibrary.DBManagement.Handlers
 			return items;
 		}
 
+		public IEnumerable<IBook> GetCheckedOutBooksByUser(string email) {
+			// Container for the queried books
+			List<IBook> items = new List<IBook>();
+			// Open connection to the database
+			using (SqlConnection connection = DBManager.GetSqlConnection()) {
+				connection.Open();
+				// Initiate a data reader via the command object
+				using (SqlCommand command = new SqlCommand(StoredProcedures.GET_CHECKED_OUT_BOOKS_BY_USER, connection)) {
+					command.CommandType = System.Data.CommandType.StoredProcedure;
+					command.Parameters.AddWithValue("@email", email);
+					using (SqlDataReader reader = command.ExecuteReader()) {
+						// Read all the data from reader and put the info into a book
+						while (reader.Read()) {
+							IBook book = new Book {
+								LibraryID = reader.GetInt32(reader.GetOrdinal("Library_ID")),
+								Title = reader.GetString(reader.GetOrdinal("Title")),
+								Author = reader.GetString(reader.GetOrdinal("Author")),
+								ISBN10 = reader.GetString(reader.GetOrdinal("ISBN10")),
+								ISBN13 = reader.GetString(reader.GetOrdinal("ISBN13")),
+								Length = reader.GetInt32(reader.GetOrdinal("Length")),
+								Genre = reader.GetString(reader.GetOrdinal("Genre")),
+								Publisher = reader.GetString(reader.GetOrdinal("Publisher")),
+								PublicationYear = reader.GetInt32(reader.GetOrdinal("Publication_Year")),
+								Description = reader.GetString(reader.GetOrdinal("Description")),
+								InStock = reader.GetBoolean(reader.GetOrdinal("In_Stock"))
+							};
+							int mediaKey = reader.GetInt32(reader.GetOrdinal("Format"));
+							string mediaFormat = MediaFormat.GetMediaFromKey(mediaKey);
+							book.Format = mediaFormat;
+							book.ImageBytes = InventoryManager.GetItemImage(book.LibraryID);
+							items.Add(book);
+						}
+					}
+					// Possibly unnecessary. When in doubt, be explicit
+					connection.Close();
+				}
+			}
+
+			return items;
+		}
+
 		public void RemoveBook(IBook book) {
 			using (SqlConnection connection = DBManager.GetSqlConnection()) {
 				connection.Open();
@@ -315,6 +357,29 @@ namespace CoreLibrary.DBManagement.Handlers
 					command.ExecuteNonQuery();
 				}
 			}
+		}
+
+		public DateTime GetDueDate(int libraryID) {
+			DateTime dueDate = DateTime.Today;
+			using (SqlConnection connection = DBManager.GetSqlConnection()) {
+				connection.Open();
+				// Initiate a data reader via the command object
+				using (SqlCommand command = new SqlCommand(StoredProcedures.GET_DUE_DATE, connection)) {
+					command.CommandType = System.Data.CommandType.StoredProcedure;
+					command.Parameters.AddWithValue("@libraryID", libraryID);
+					using (SqlDataReader reader = command.ExecuteReader()) {
+						// Read all the data from reader and put the info into a book
+						while (reader.Read()) {
+							dueDate = reader.GetDateTime(0);
+						}
+					}
+				}
+				
+				// Possibly unnecessary. When in doubt, be explicit
+				connection.Close();
+			}
+
+			return dueDate;
 		}
 	}
 }

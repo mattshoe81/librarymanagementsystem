@@ -18,7 +18,7 @@ namespace LibraryWebUI.Controllers
 		public delegate void HandleSentEmail();
 
 		public IActionResult MemberHome() {
-			return View();
+			return View(new MemberHomeViewModel());
 		}
 
 		[HttpGet]
@@ -32,26 +32,39 @@ namespace LibraryWebUI.Controllers
 			return View(loginInfo);
 		}
 
+		[HttpPost]
 		public IActionResult BrowseInventory() {
 			SearchRepository.SearchResults = SearchUtility.GetBooks().AsQueryable().OrderBy(book => book.Title);
 			BrowseViewModel.CurrentPage = 1;
 			return View(new BrowseViewModel());
 		}
 
+		public IActionResult NewBrowseSession() {
+			SearchRepository.SearchResults = SearchUtility.GetBooks().AsQueryable().OrderBy(book => book.Title);
+			BrowseViewModel.CurrentPage = 1;
+			return RedirectToAction("BrowseInventory", new { page = BrowseViewModel.CurrentPage });
+		}
+
+		[HttpGet]
+		public IActionResult BrowseInventory(int page) {
+			return View(new BrowseViewModel());
+		}
+
 		public IActionResult NextPage() {
 			BrowseViewModel.CurrentPage++;
-			return View("BrowseInventory", new BrowseViewModel());
+			return RedirectToAction("BrowseInventory", new { page=BrowseViewModel.CurrentPage });
+			//return View("BrowseInventory", new BrowseViewModel());
 		}
 
 		public IActionResult PreviousPage() {
 			BrowseViewModel.CurrentPage--;
-			return View("BrowseInventory", new BrowseViewModel());
+			return RedirectToAction("BrowseInventory", new { page = BrowseViewModel.CurrentPage });
 		}
 
 		public IActionResult SetResultsPerPage(int resultsPerPage) {
 			BrowseViewModel.ResultsPerPage = resultsPerPage;
 			BrowseViewModel.CurrentPage = 1;
-			return View("BrowseInventory", new BrowseViewModel());
+			return RedirectToAction("BrowseInventory");
 		}
 
 		[HttpPost]
@@ -75,10 +88,10 @@ namespace LibraryWebUI.Controllers
 				default:
 					break;
 			}
-			BrowseViewModel viewModel = new BrowseViewModel();
 			BrowseViewModel.CurrentPage = 1;
 
-			return View("BrowseInventory", viewModel);
+			return RedirectToAction("BrowseInventory");
+			;
 		}
 
 		[HttpPost]
@@ -93,10 +106,9 @@ namespace LibraryWebUI.Controllers
 															|| book.Format.ToLower().Contains(searchString.ToLower())
 															|| book.Publisher.ToLower().Contains(searchString.ToLower())
 														);
-			BrowseViewModel viewModel = new BrowseViewModel();
 			BrowseViewModel.CurrentPage = 1;
 
-			return View("BrowseInventory", viewModel);
+			return RedirectToAction("BrowseInventory");
 		}
 
 		public IActionResult ReserveBook(int libraryID) {
@@ -147,18 +159,24 @@ namespace LibraryWebUI.Controllers
 				smtpServer.Credentials = new System.Net.NetworkCredential("mattshoe81", "8122Loach");
 				smtpServer.EnableSsl = true;
 
-				HandleSentEmail sentEmailHandler = () => RedirectToAction("BrowseInventory");
+				HandleSentEmail sentEmailHandler = () => {
+					smtpServer.Dispose();
+					mail.Dispose();
+					RedirectToAction("BrowseInventory");
+				};
 				smtpServer.SendAsync(mail, sentEmailHandler);
 			} catch (Exception e) {
 				return View("Test", e.Message);
 			}
+
+
 
 			foreach (IBook book in Models.Cart.CartContents) {
 				AccountManager.CheckoutBook(book, Models.AccountRepository.LoggedInAccount);
 			}
 
 			Models.Cart.EmptyCart();
-			return View("MemberHome");
+			return View("MemberHome", new MemberHomeViewModel());
 		}
 		
 		[HttpPost]
@@ -167,6 +185,9 @@ namespace LibraryWebUI.Controllers
 			return View("Cart", new CartViewModel());
 		}
 
+		public IActionResult AccountDetails() {
+			return View();
+		}
 
 
 

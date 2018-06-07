@@ -1,0 +1,80 @@
+﻿#input-search {
+	display: table-cell;
+	width: 100%;
+}
+
+#results-per-page-conatiner {
+	margin-top: 2%;
+}
+
+#input-results-per-page {
+	font-size: 130%;
+}
+
+#submit-results-per-page {
+	margin-left: 10px;
+}
+
+.pager {
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
+#p-format {
+	margin-top: 10px;
+}
+
+.form-read-more {
+	display: inline-block;
+}
+
+.submit-read-more {
+	font-size: 95%;
+	color: #000000;
+	width: 100%;
+	font-style: italic;
+	line-height: 1.125;
+	margin: 0;
+	padding: 0;
+	float: left;
+}
+
+.form-reserve {
+	display: inline-block;
+	margin-top: 3%;
+	margin-right: 5%;
+}
+
+.p-in-stock {
+	display: inline-block;
+	margin-top: 3%;
+	margin-right: 5%;
+}
+
+.item-divider {
+	border-top: 1px solid;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+#results-per-page-bottom {
+	display: none;
+}
+
+@media screen and (max-width: 992px) {
+	#results-per-page-top {
+		display: none;
+	}
+
+	#results-per-page-bottom {
+		display: none;
+	}
+
+	#search {
+		float: right;
+	}
+
+	#sort {
+		float: left;
+	}
+}
