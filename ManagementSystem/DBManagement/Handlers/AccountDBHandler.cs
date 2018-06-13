@@ -28,7 +28,8 @@ namespace CoreLibrary.DBManagement.Handlers
 		public void CreateMemberAccount(IAccount account) {
 			using (SqlConnection connection = DBManager.GetSqlConnection()) {
 				connection.Open();
-				using (SqlCommand command = new SqlCommand(DBManager.GetQueryTextFromResource(CREATE_MEMBER_ACCOUNT_RESOURCE), connection)) {
+				using (SqlCommand command = new SqlCommand(StoredProcedures.CREATE_MEMBER_ACCOUNT, connection)) {
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
 					command.Parameters.AddWithValue("@email", account.Email);
 					command.Parameters.AddWithValue("@password", account.Password);
 					command.Parameters.AddWithValue("@firstName", account.FirstName);

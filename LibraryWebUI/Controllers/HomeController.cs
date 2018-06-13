@@ -82,7 +82,7 @@ namespace LibraryWebUI.Controllers
 				if (!AccountManager.VerifyMemberEmail(account) && !AccountManager.VerifyAdminEmail(account)) {
 					AccountManager.CreateMemberAccount(account);
 					AccountRepository.LoggedInAccount = account;
-					view = View("MemberHome");
+					view = View("MemberHome", new MemberHomeViewModel());
 				} else {
 					view = View(new CreateAccountViewModel("Email already in use"));
 				}

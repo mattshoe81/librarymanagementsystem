@@ -11,6 +11,7 @@ namespace CoreLibrary.DBManagement
 		internal const string GET_CHECKED_OUT_BOOKS = "GetCheckedOutBooks";
 		internal const string GET_CHECKED_OUT_BOOKS_BY_USER = "GetCheckedOutBooksByUser";
 		internal const string GET_DUE_DATE = "GetDueDate";
+        internal const string CREATE_MEMBER_ACCOUNT = "CreateMemberAccount";
 
 	}
 }
