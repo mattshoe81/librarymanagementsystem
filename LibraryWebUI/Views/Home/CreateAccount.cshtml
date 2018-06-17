@@ -3,13 +3,14 @@
 @{
     ViewData["Title"] = "CreateAccount";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["StyleSheet"] = "create-account.css";
 }
 
 <h2>CreateAccount</h2>
 <hr />
 <div class="row">
-	<div class="col-xs-4">
-		<form asp-action="CreateAccount" method="post">
+	<div id="create-account-form-container">
+		<form id="create-account-form" asp-action="CreateAccount" method="post">
 			<div class="alert alert-danger">
 				@Model.ErrorMessage.ToString()
 			</div>
@@ -34,7 +35,7 @@
 				<label asp-for="@Model.Account.LastName">Last Name</label>
 				<input asp-for="@Model.Account.LastName" type="text" class="form-control" placeholder="Enter Last Name">
 			</div>
-			<button type="submit" class="btn btn-primary">Submit</button>
+			<button type="submit" class="btn btn-primary btn-submit-form">Submit</button>
 		</form>
 	</div>
 </div>

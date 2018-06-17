@@ -10,7 +10,6 @@
 	<h1 id="welcome">Welcome to my personal library!</h1>
 </div>
 
-<div class="row">
 	<div id="login-container">
 		<form id="login-form" asp-action="DirectLogin" method="post">
 			<div class="login-verification-info">
@@ -28,10 +27,11 @@
 				<input asp-for="@Model.LoginInfo.Password" type="password" class="form-control" placeholder="Enter Password">
 			</div>
 			<div id="submit-login-container">
-				<button id="submit-login" type="submit" class="btn btn-primary text-center">Submit</button>
+				<button type="submit" class="btn btn-primary text-center btn-submit-form">Submit</button>
 			</div>
 			
 		</form>
+        </div>
 
 		<div id="create-account-container">
 			<div class="text-center">
@@ -40,7 +40,4 @@
 					<input type="submit" class="btn btn-md" value="Create Account!" />
 				</form>
 			</div>
-		</div>
-	</div>	
-	
-</div>
+		</div>	

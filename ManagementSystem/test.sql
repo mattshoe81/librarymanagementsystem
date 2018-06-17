@@ -8,4 +8,4 @@
 */
 
 SELECT * 
-FROM Checkout_Log
+FROM Account_Details

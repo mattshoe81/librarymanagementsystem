@@ -139,35 +139,8 @@ namespace LibraryWebUI.Controllers
 		}
 
 		public IActionResult Checkout() {
-			try {
-				MailMessage mail = new MailMessage();
-				SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
-
-				mail.From = new MailAddress("mattshoe81@gmail.com");
-				mail.To.Add("shoemaker.277@osu.edu");
-				mail.Subject = "Book Reservation!";
-
-				string bodyMessage = $"Member: {AccountRepository.LoggedInAccount.FirstName} {AccountRepository.LoggedInAccount.LastName} \n" +
-					$"Email: {AccountRepository.LoggedInAccount.Email}\n\n" +
-					$"Reserve these items:\n====================\n";
-				foreach (IBook item in Models.Cart.CartContents) {
-					bodyMessage += $"Item# {item.LibraryID}\n{item.Title}\n====================\n";
-				}
-				mail.Body = bodyMessage;
-
-				smtpServer.Port = 587;
-				smtpServer.Credentials = new System.Net.NetworkCredential("mattshoe81", "8122Loach");
-				smtpServer.EnableSsl = true;
-
-				HandleSentEmail sentEmailHandler = () => {
-					smtpServer.Dispose();
-					mail.Dispose();
-					RedirectToAction("BrowseInventory");
-				};
-				smtpServer.SendAsync(mail, sentEmailHandler);
-			} catch (Exception e) {
-				return View("Test", e.Message);
-			}
+            this.EmailAdministrator();
+            this.EmailMember();
 
 
 
@@ -188,6 +161,80 @@ namespace LibraryWebUI.Controllers
 		public IActionResult AccountDetails() {
 			return View();
 		}
+
+        private void EmailAdministrator()
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
+
+                mail.From = new MailAddress("mattslibrarymanager@gmail.com");
+                mail.To.Add("mattslibrarymanager@gmail.com");
+                mail.Subject = "Book Reservation!";
+
+                string bodyMessage = $"Member: {AccountRepository.LoggedInAccount.FirstName} {AccountRepository.LoggedInAccount.LastName} \n" +
+                    $"Email: {AccountRepository.LoggedInAccount.Email}\n\n" +
+                    $"Reserve these items:\n====================\n";
+                foreach (IBook item in Models.Cart.CartContents)
+                {
+                    bodyMessage += $"Item# {item.LibraryID}\n{item.Title}\n====================\n";
+                }
+                mail.Body = bodyMessage;
+
+                smtpServer.Port = 587;
+                smtpServer.Credentials = new System.Net.NetworkCredential("mattslibrarymanager@gmail.com", "8122Password");
+                smtpServer.EnableSsl = true;
+
+                HandleSentEmail sentEmailHandler = () => {
+                    smtpServer.Dispose();
+                    mail.Dispose();
+                    RedirectToAction("BrowseInventory");
+                };
+                smtpServer.SendAsync(mail, sentEmailHandler);
+            }
+            catch (Exception e)
+            {
+                
+            }
+        }
+
+        private void EmailMember()
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient smtpServer = new SmtpClient("smtp.gmail.com");
+
+                mail.From = new MailAddress("mattslibrarymanager@gmail.com");
+                mail.To.Add(AccountRepository.LoggedInAccount.Email);
+                mail.Subject = "Reservation Summary!";
+                
+                string bodyMessage = "Thank you for your order! \nYou may reply to this email at any time to set up a time for pick up or delivery.\n\nDetails:\n\n====================\n";
+                foreach (IBook item in Models.Cart.CartContents)
+                {
+                    bodyMessage += $"Item# {item.LibraryID}\n{item.Title}\n====================\n";
+                }
+
+                bodyMessage += "\n\nYou may reply to this email at any time if you have questions or to cancel your order.";
+                mail.Body = bodyMessage;
+
+                smtpServer.Port = 587;
+                smtpServer.Credentials = new System.Net.NetworkCredential("mattslibrarymanager", "8122Password");
+                smtpServer.EnableSsl = true;
+
+                HandleSentEmail sentEmailHandler = () => {
+                    smtpServer.Dispose();
+                    mail.Dispose();
+                    RedirectToAction("BrowseInventory");
+                };
+                smtpServer.SendAsync(mail, sentEmailHandler);
+            }
+            catch (Exception e)
+            {
+                
+            }
+        }
 
 
 

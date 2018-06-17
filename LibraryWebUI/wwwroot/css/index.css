@@ -8,13 +8,15 @@
 }
 
 #login-container {
+    display: inline-block;
 	margin: auto;
-	width: 90%;
+	width: 40%;
 }
 
-#login-form {
+.btn-submit-form {
 	float: left;
-	width: 35%;
+	width: 90%;
+    margin: auto;
 }
 
 #create-account-container {
@@ -25,6 +27,20 @@
 	margin-top: 10%;
 }
 
+@media screen and (max-width: 768px) {
+    #login-container {
+        width: 90%;
+    }
+
+    #create-account-container {
+        display: inline-block;
+        width: 30%;
+        clear: left;
+        margin-left: 30px;
+        margin-top: 10%;
+    }
+}
+
 @media screen and (max-width: 650px) {
 	#login-form {
 		float: left;
@@ -32,11 +48,8 @@
 	}
 
 	#create-account-container {
-		display: inline-block;
-		width: 30%;
-		clear: left;
-		margin-left: 30px;
-		margin-top: 10%;
+        width: 90%;
+        margin: auto;
 	}
 }
 
@@ -58,7 +71,7 @@
 		text-align: center;
 	}
 
-	#submit-login {
+	.btn-submit-form {
 		width: 90%;
 	}
 }

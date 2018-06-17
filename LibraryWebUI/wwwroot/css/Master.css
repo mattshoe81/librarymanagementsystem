@@ -107,6 +107,10 @@
 	width: 100%;
 }
 
+btn-submit-form {
+
+}
+
 
 
 
@@ -114,4 +118,10 @@
 	#logout-nav, #account-nav {
 		display: block;
 	}
+}
+
+@media screen and (max-width: 450px) {
+    .btn-submit-form {
+        width: 90%;
+    }
 }
