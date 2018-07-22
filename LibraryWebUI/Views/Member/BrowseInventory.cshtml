@@ -129,7 +129,7 @@
 									<input type="submit" class="btn btn-link submit-read-more" value="Read More" />
 								</form>
 
-								@if (LibraryWebUI.Models.AccountRepository.LoggedInAccount != null && book.InStock) {
+								@if (Model.UserAccount != null && book.InStock) {
 									<form class="pull-right form-reserve" asp-action="AddToCart" method="post">
 										<input hidden type="number" name="libraryID" value="@book.LibraryID" />
 										@if (false) {

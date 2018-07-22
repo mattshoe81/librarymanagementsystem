@@ -6,18 +6,10 @@ using CoreLibrary.Members;
 
 namespace LibraryWebUI.ViewModels
 {
-    public class CreateAccountViewModel : LoggedInViewModel
+    public class CreateAccountViewModel : BaseViewModel
     {
 		public string ErrorMessage { get; set; } = "";
 
 		public IAccount Account { get; set; }
-
-		public CreateAccountViewModel() {
-
-		}
-
-		public CreateAccountViewModel(string errorMessage) {
-			ErrorMessage = errorMessage;
-		}
     }
 }

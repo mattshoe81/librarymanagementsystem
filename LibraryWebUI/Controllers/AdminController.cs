@@ -29,7 +29,7 @@ namespace LibraryWebUI.Controllers
 		//	if (ModelState.IsValid) {
 		//		if (adminRepo.VerifyAdminLogin(loginInfo.Email, loginInfo.Password)) {
 		//			IAccount admin = SearchUtility.GetAccountByEmail(loginInfo.Email);
-		//			AccountRepository.LoggedInAccount = admin;
+		//			Model.User = admin;
 		//			view = View("AdminHome", new AdminHomeViewModel());
 		//		} else {
 		//			view = View(new LoginViewModel {
@@ -156,7 +156,6 @@ namespace LibraryWebUI.Controllers
 
 		[HttpGet]
 		public IActionResult Search() {
-			SearchViewModel viewModel = new SearchViewModel();
 			return View(new SearchViewModel());
 		}
 
@@ -197,8 +196,7 @@ namespace LibraryWebUI.Controllers
 
 		public IActionResult BookDetails(int libraryID) {
 			IBook book = SearchUtility.GetBookByLibraryID(libraryID);
-			BookDetailsViewModel viewModel = new BookDetailsViewModel();
-			viewModel.Book = book;
+			BookDetailsViewModel viewModel = vmFactory.GetBookDetailsViewModel(book);
 			return View(viewModel);
 		}
 

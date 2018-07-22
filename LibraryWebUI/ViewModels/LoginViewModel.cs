@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoreLibrary.Members;
 
 namespace LibraryWebUI.ViewModels
 {
-	public class LoginViewModel {
+	public class LoginViewModel : BaseViewModel {
 
 		public Models.LoginModel LoginInfo { get; set; } = new Models.LoginModel { Email = "", Password = "" };
 

@@ -20,7 +20,7 @@ namespace LibraryWebUI.Controllers
 
         public IActionResult Index()
         {
-            return View(new LoginViewModel());
+            return View(this.vmFactory.GetLoginViewModel());
         }
 
         public IActionResult About()
@@ -45,15 +45,13 @@ namespace LibraryWebUI.Controllers
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 		public IActionResult Logout() {
-			Models.AccountRepository.LoggedInAccount = null;
-			return View("Index", new LoginViewModel());
+			this.LogoutUser();
+			return View("Index", vmFactory.GetLoginViewModel());
 		}
 
 		[HttpPost]
 		public IActionResult DirectLogin(LoginModel loginInfo) {
-			AccountRepository accounts = new AccountRepository();
-			IActionResult view;
-			LoginViewModel viewModel = new LoginViewModel();
+			AccountUtitities accounts = new AccountUtitities();
 			if (accounts.VerifyAdminLogin(loginInfo.Email, loginInfo.Password)) {
 				this.LoginUser(AccountManager.GetAccountByEmail(loginInfo.Email));
 				return View("AdminHome", 
@@ -68,13 +66,9 @@ namespace LibraryWebUI.Controllers
 					account = this.GetUserAccount();
 					var books = InventoryManager.GetCheckedOutBooksByUser(this.GetUserAccount().Email).AsQueryable();
 					IAccount userAccount = this.GetUserAccount();
-					return View("MemberHome",
-						new MemberHomeViewModel {
-							UserAccount = userAccount,
-							LoanedBooks = books
-						}
-					);
+					return View("MemberHome", this.vmFactory.GetMemberHomeViewModel());
 				} else {
+					LoginViewModel viewModel = vmFactory.GetLoginViewModel();
 					viewModel.LoginErrorInfo = new string[] { "Invalid Login" };
 					return View("Index", viewModel);
 				}				
@@ -83,7 +77,7 @@ namespace LibraryWebUI.Controllers
 
 		[HttpGet]
 		public IActionResult CreateAccount() {
-			return View(new CreateAccountViewModel());
+			return View(this.vmFactory.CreateAccountViewModel());
 		}
 
 		[HttpPost]
@@ -93,16 +87,12 @@ namespace LibraryWebUI.Controllers
 				if (!AccountManager.VerifyMemberEmail(account) && !AccountManager.VerifyAdminEmail(account)) {
 					AccountManager.CreateMemberAccount(account);
 					this.LoginUser(account);
-					view = View("MemberHome", 
-							new MemberHomeViewModel {
-								UserAccount = this.GetUserAccount()
-							}
-						);
+					view = View(this.vmFactory.GetMemberHomeViewModel());
 				} else {
-					view = View(new CreateAccountViewModel("Email already in use"));
+					view = View(this.vmFactory.GetCreateAccountViewModel("Email already in use"));
 				}
 			} else {
-				view = View(new CreateAccountViewModel("Passwords do not match"));
+				view = View(this.vmFactory.GetCreateAccountViewModel("Passwords do not match"));
 			}
 		
 

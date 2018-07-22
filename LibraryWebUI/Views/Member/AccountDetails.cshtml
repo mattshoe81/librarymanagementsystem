@@ -6,14 +6,14 @@
 	Layout = "~/Views/Shared/_MemberLayout.cshtml";
 }
 
-<h2>@AccountRepository.LoggedInAccount.FirstName @AccountRepository.LoggedInAccount.LastName </h2>
+<h2>@Model.UserAccount.FirstName @Model.UserAccount.LastName </h2>
 
-<p><span style="font-weight:bold;">Email:</span> @AccountRepository.LoggedInAccount.Email</p>
+<p><span style="font-weight:bold;">Email:</span> @Model.UserAccount.Email</p>
 
 <hr />
 <h3>Books on loan:</h3>
 <div class="row" style="display:inline-block; height:500px;" >
-	@foreach (IBook book in InventoryManager.GetCheckedOutBooksByUser(AccountRepository.LoggedInAccount.Email)) {
+	@foreach (IBook book in InventoryManager.GetCheckedOutBooksByUser(Model.UserAccount.Email)) {
 		<div class="col-xs-1" style="min-height:500px; max-height:500px;" >
 			<a href="@Url.Action("BookDetails", "Member", new { libraryID=@book.LibraryID })">
 				<img class="img-rounded img-responsive" src="@($"data:image/png;base64,{Convert.ToBase64String(book.ImageBytes)}")">

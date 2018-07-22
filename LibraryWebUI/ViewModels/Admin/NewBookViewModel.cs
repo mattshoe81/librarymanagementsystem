@@ -7,7 +7,7 @@ using CoreLibrary.Members;
 
 namespace LibraryWebUI.ViewModels.Admin
 {
-	public class NewBookViewModel : IAdminViewModel {
+	public class NewBookViewModel{
 
 		public IAccount LoggedInAdmin { get; set; }
 		
@@ -28,7 +28,6 @@ namespace LibraryWebUI.ViewModels.Admin
 		}
 
 		public NewBookViewModel() {
-			LoggedInAdmin = Models.AccountRepository.LoggedInAccount;
 			Book = new Book {
 				Title = "",
 				Author = "",

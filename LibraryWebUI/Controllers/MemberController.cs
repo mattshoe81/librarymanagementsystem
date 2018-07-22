@@ -21,29 +21,14 @@ namespace LibraryWebUI.Controllers
 		public IActionResult MemberHome() {
 			IAccount user = this.GetUserAccount();
 			IQueryable<IBook> books = InventoryManager.GetCheckedOutBooksByUser(this.GetUserAccount().Email).AsQueryable();
-			return View(new MemberHomeViewModel {
-						LoanedBooks = books
-				});
-		}
-
-		[HttpGet]
-        public IActionResult MemberLogin() {
-            return View();
-        }
-
-		[HttpPost]
-		public IActionResult MemberLogin(LoginModel loginInfo) {
-
-			return View(loginInfo);
+			return View(vmFactory.GetMemberHomeViewModel());
 		}
 
 		[HttpPost]
 		public IActionResult BrowseInventory() {
 			SearchRepository.SearchResults = SearchUtility.GetBooks().AsQueryable().OrderBy(book => book.Title);
 			BrowseViewModel.CurrentPage = 1;
-			return View(new BrowseViewModel {
-				UserAccount = this.GetUserAccount()
-			});
+			return View(vmFactory.GetBrowseViewModel());
 		}
 
 		public IActionResult NewBrowseSession() {
@@ -54,9 +39,7 @@ namespace LibraryWebUI.Controllers
 
 		[HttpGet]
 		public IActionResult BrowseInventory(int page) {
-			return View(new BrowseViewModel {
-				UserAccount = this.GetUserAccount()
-			});
+			return View(vmFactory.GetBrowseViewModel());
 		}
 
 		public IActionResult NextPage() {
@@ -121,37 +104,24 @@ namespace LibraryWebUI.Controllers
 		}
 
 		public IActionResult ReserveBook(int libraryID) {
-			ReserveBookViewModel viewModel = new ReserveBookViewModel {
-				UserAccount = this.GetUserAccount()
-			};
-			viewModel.Book = SearchUtility.GetBookByLibraryID(libraryID);
-
+			ReserveBookViewModel viewModel = this.vmFactory.GetReserveBookViewModel(SearchUtility.GetBookByLibraryID(libraryID));
 			return View(viewModel);
 		}
 
 		public IActionResult AddToCart(int libraryID) {
 			IBook book = SearchUtility.GetBookByLibraryID(libraryID);
-			Cart cart = this.GetCart();
-			cart.Add(book);
+			this.AddToCart(book);
 			
-			return View("BrowseInventory", new BrowseViewModel {
-				UserAccount = this.GetUserAccount()
-			});
+			return View("BrowseInventory", this.vmFactory.GetBrowseViewModel());
 		}
 
 		public IActionResult Cart() {
-			return View(new CartViewModel {
-				UserAccount = this.GetUserAccount(),
-				CartContents = this.GetCart().Contents
-			});
+			return View(vmFactory.GetCartViewModel());
 		}
 
 		public IActionResult BookDetails(int libraryID) {
 			IBook book = SearchUtility.GetBookByLibraryID(libraryID);
-			BookDetailsViewModel viewModel = new BookDetailsViewModel {
-				UserAccount = this.GetUserAccount()
-			};
-			viewModel.Book = book;
+			BookDetailsViewModel viewModel = this.vmFactory.GetBookDetailsViewModel(book);
 			return View(viewModel);
 		}
 
@@ -161,19 +131,17 @@ namespace LibraryWebUI.Controllers
 
 			Cart cart = this.GetCart();
 			foreach (IBook book in cart.Contents) {
-				AccountManager.CheckoutBook(book, Models.AccountRepository.LoggedInAccount);
+				AccountManager.CheckoutBook(book, this.GetUserAccount());
 			}
 			cart.Empty();
 			
-			return View("MemberHome", new MemberHomeViewModel {
-				UserAccount = this.GetUserAccount()
-			});
+			return View("MemberHome", this.vmFactory.GetMemberHomeViewModel());
 		}
 		
 		[HttpPost]
 		public IActionResult RemoveFromCart(int libraryID) {
-			this.GetCart().Contents.Remove(SearchUtility.GetBookByLibraryID(libraryID));
-			return View("Cart", new CartViewModel());
+			this.RemoveFromCart(SearchUtility.GetBookByLibraryID(libraryID));
+			return View("Cart", this.vmFactory.GetCartViewModel());
 		}
 
 		public IActionResult AccountDetails() {
@@ -191,8 +159,8 @@ namespace LibraryWebUI.Controllers
                 mail.To.Add("mattslibrarymanager@gmail.com");
                 mail.Subject = "Book Reservation!";
 
-                string bodyMessage = $"Member: {AccountRepository.LoggedInAccount.FirstName} {AccountRepository.LoggedInAccount.LastName} \n" +
-                    $"Email: {AccountRepository.LoggedInAccount.Email}\n\n" +
+                string bodyMessage = $"Member: {this.GetUserAccount().FirstName} {this.GetUserAccount().LastName} \n" +
+                    $"Email: {this.GetUserAccount().Email}\n\n" +
                     $"Reserve these items:\n====================\n";
                 foreach (IBook item in this.GetCart().Contents)
                 {
@@ -211,10 +179,9 @@ namespace LibraryWebUI.Controllers
                 };
                 smtpServer.SendAsync(mail, sentEmailHandler);
             }
-            catch (Exception e)
-            {
-                
-            }
+            catch (Exception e) {
+				string message = e.Message;
+			}
         }
 
         private void EmailMember()
@@ -248,10 +215,9 @@ namespace LibraryWebUI.Controllers
                 };
                 smtpServer.SendAsync(mail, sentEmailHandler);
             }
-            catch (Exception e)
-            {
-                
-            }
+            catch (Exception e) {
+				string message = e.Message;
+			}
         }
 
 

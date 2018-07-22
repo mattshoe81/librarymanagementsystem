@@ -7,19 +7,13 @@ using CoreLibrary.Searching;
 using LibraryWebUI.Models;
 
 namespace LibraryWebUI.Models {
-	public class AccountRepository {
+	public class AccountUtitities {
 
-		public IQueryable<IAccount> Accounts { get; private set; }
-
-		public static IAccount LoggedInAccount { get; set; }
-
-		public AccountRepository() {
-			Accounts = SearchUtility.GetAccounts().AsQueryable();
-		}
 
 		public bool VerifyAdminLogin(string emailAddress, string password) {
+			IQueryable<IAccount> accounts = SearchUtility.GetAccounts().AsQueryable();
 			bool result = false;
-			if (Accounts.Where(account => (account.Email == emailAddress) && (account.Password == password) && account.Admin).Count() > 0) {
+			if (accounts.Where(account => (account.Email == emailAddress) && (account.Password == password) && account.Admin).Count() > 0) {
 				result = true;
 			}
 
@@ -27,8 +21,9 @@ namespace LibraryWebUI.Models {
 		}
 
 		public bool VerifyMemberLogin(string emailAddress, string password) {
+			IQueryable<IAccount> accounts = SearchUtility.GetAccounts().AsQueryable();
 			bool result = false;
-			if (Accounts.Where(account => (account.Email == emailAddress) && (account.Password == password) && !account.Admin).Count() > 0) {
+			if (accounts.Where(account => (account.Email == emailAddress) && (account.Password == password) && !account.Admin).Count() > 0) {
 				result = true;
 			}
 
