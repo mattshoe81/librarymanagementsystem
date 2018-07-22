@@ -8,7 +8,7 @@ using LibraryWebUI.Models;
 
 namespace LibraryWebUI.ViewModels
 {
-    public class SearchViewModel
+    public class SearchViewModel : LoggedInViewModel
     {
 		public IQueryable<IBook>  Books { get; set; }
 		public IQueryable<IMovie> Movies { get; set; }

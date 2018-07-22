@@ -6,7 +6,7 @@ using CoreLibrary.Members;
 
 namespace LibraryWebUI.ViewModels
 {
-    public class CreateAccountViewModel
+    public class CreateAccountViewModel : LoggedInViewModel
     {
 		public string ErrorMessage { get; set; } = "";
 

@@ -11,7 +11,7 @@
 </div>
 
 	<div id="login-container">
-		<form id="login-form" asp-action="DirectLogin" method="post">
+		<form id="login-form" asp-controller="Home" asp-action="DirectLogin" method="post">
 			<div class="login-verification-info">
 				@foreach (string error in Model.LoginErrorInfo) {
 					error.ToString();

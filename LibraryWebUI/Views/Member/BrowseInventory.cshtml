@@ -96,7 +96,7 @@
 	</ul>
 	<hr class="hr-divider-bottom" />
 	@{
-		IEnumerable<IBook> results = Model.Books.Skip((BrowseViewModel.CurrentPage - 1) * BrowseViewModel.ResultsPerPage).Take(BrowseViewModel.ResultsPerPage).ToList();
+		IEnumerable<IBook> results = Model.Books.Skip((int)(BrowseViewModel.CurrentPage - 1) * BrowseViewModel.ResultsPerPage).Take(BrowseViewModel.ResultsPerPage).ToList();
 		foreach (IBook book in results) {
 			<div class="row">
 
@@ -132,7 +132,7 @@
 								@if (LibraryWebUI.Models.AccountRepository.LoggedInAccount != null && book.InStock) {
 									<form class="pull-right form-reserve" asp-action="AddToCart" method="post">
 										<input hidden type="number" name="libraryID" value="@book.LibraryID" />
-										@if (LibraryWebUI.Models.Cart.CartContents.Contains(book)) {
+										@if (false) {
 											<input type="submit" disabled class="btn btn-success" value="Already In Cart!" />
 										} else {
 											<input type="submit" class="btn btn-success" value="Reserve Now!" />

@@ -7,7 +7,7 @@ using LibraryWebUI.Models;
 
 namespace LibraryWebUI.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
 		
 

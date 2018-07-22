@@ -7,9 +7,9 @@ using LibraryWebUI.Models;
 
 namespace LibraryWebUI.ViewModels.Member
 {
-    public class CartViewModel
+    public class CartViewModel : LoggedInViewModel
     {
-		public List<IBook> CartContents = Cart.CartContents;
+		public IEnumerable<IBook> CartContents { get; set; }
 
     }
 }

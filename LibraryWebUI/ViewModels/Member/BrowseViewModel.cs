@@ -8,11 +8,11 @@ using LibraryWebUI.Models;
 
 namespace LibraryWebUI.ViewModels.Member
 {
-    public class BrowseViewModel
+    public class BrowseViewModel : LoggedInViewModel
     {
 		public IQueryable<IBook> Books { get; set; } = SearchRepository.SearchResults;
 
-		public static int CurrentPage { get; set; } = 1;
+		public static uint CurrentPage { get; set; } = 1;
 
 		public static int ResultsPerPage { get; set; } = 10;
 

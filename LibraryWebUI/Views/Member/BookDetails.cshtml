@@ -38,7 +38,7 @@
 		@if (LibraryWebUI.Models.AccountRepository.LoggedInAccount != null && Model.Book.InStock) {
 			<form id="reserve" class="pull-right" asp-action="AddToCart" method="post">
 				<input hidden type="number" name="libraryID" value="@Model.Book.LibraryID" />
-				@if (LibraryWebUI.Models.Cart.CartContents.Contains(Model.Book)) {
+				@if (false) {
 					<input type="submit" disabled class="btn btn-success" value="Already In Cart!" />
 				} else {
 					<input type="submit" class="btn btn-success" value="Reserve Now!" />

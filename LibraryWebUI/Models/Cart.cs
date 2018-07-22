@@ -8,15 +8,21 @@ namespace LibraryWebUI.Models
 {
     public class Cart
     {
-		public static List<IBook> CartContents { get; set; } = new List<IBook>();
+		public List<IBook> Contents { get; set; } = new List<IBook>();
 
-		public static void EmptyCart() {
-			CartContents = new List<IBook>();
+		public void Empty() {
+			this.Contents = new List<IBook>();
 		}
 
-		public static bool IsAlreadyInCart(int libraryID) {
+		public void Add(IBook book) {
+			if (!this.IsAlreadyInCart(book.LibraryID)) {
+				this.Contents.Add(book);
+			}
+		}
+
+		private bool IsAlreadyInCart(int libraryID) {
 			bool isInCart = false;
-			foreach (IBook item in CartContents) {
+			foreach (IBook item in Contents) {
 				if (!isInCart) {
 					isInCart = item.LibraryID == libraryID;
 				}

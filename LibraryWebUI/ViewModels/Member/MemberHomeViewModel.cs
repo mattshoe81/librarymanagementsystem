@@ -10,6 +10,6 @@ namespace LibraryWebUI.ViewModels.Member
 {
     public class MemberHomeViewModel : LoggedInViewModel
     {
-		public IQueryable<IBook> LoanedBooks { get; } = InventoryManager.GetCheckedOutBooksByUser(AccountRepository.LoggedInAccount.Email).AsQueryable();
+		public IQueryable<IBook> LoanedBooks { get; set; }
     }
 }

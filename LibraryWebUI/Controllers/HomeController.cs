@@ -11,10 +11,11 @@ using CoreLibrary.Accounts;
 using LibraryWebUI.ViewModels.Admin;
 using LibraryWebUI.ViewModels.Member;
 using CoreLibrary.Members;
+using CoreLibrary.Inventory;
 
 namespace LibraryWebUI.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
 
         public IActionResult Index()
@@ -48,26 +49,36 @@ namespace LibraryWebUI.Controllers
 			return View("Index", new LoginViewModel());
 		}
 
+		[HttpPost]
 		public IActionResult DirectLogin(LoginModel loginInfo) {
 			AccountRepository accounts = new AccountRepository();
 			IActionResult view;
 			LoginViewModel viewModel = new LoginViewModel();
 			if (accounts.VerifyAdminLogin(loginInfo.Email, loginInfo.Password)) {
-				AccountRepository.LoggedInAccount = AccountManager.GetAccountByEmail(loginInfo.Email);
-				view = View("AdminHome", new AdminHomeViewModel());
-				Cart.EmptyCart();
+				this.LoginUser(AccountManager.GetAccountByEmail(loginInfo.Email));
+				return View("AdminHome", 
+					new AdminHomeViewModel {
+						UserAccount = this.GetUserAccount()
+					}				
+				);
 			} else {
 				if (accounts.VerifyMemberLogin(loginInfo.Email, loginInfo.Password)) {
-					AccountRepository.LoggedInAccount = AccountManager.GetAccountByEmail(loginInfo.Email);
-					view = View("MemberHome", new MemberHomeViewModel());
-					Cart.EmptyCart();
+					IAccount account = this.GetUserAccount();
+					this.LoginUser(AccountManager.GetAccountByEmail(loginInfo.Email));
+					account = this.GetUserAccount();
+					var books = InventoryManager.GetCheckedOutBooksByUser(this.GetUserAccount().Email).AsQueryable();
+					IAccount userAccount = this.GetUserAccount();
+					return View("MemberHome",
+						new MemberHomeViewModel {
+							UserAccount = userAccount,
+							LoanedBooks = books
+						}
+					);
 				} else {
 					viewModel.LoginErrorInfo = new string[] { "Invalid Login" };
-					view = View("Index", viewModel);
+					return View("Index", viewModel);
 				}				
 			}
-
-			return view;
 		}
 
 		[HttpGet]
@@ -81,8 +92,12 @@ namespace LibraryWebUI.Controllers
 			if (account.Password == passwordVerification) {
 				if (!AccountManager.VerifyMemberEmail(account) && !AccountManager.VerifyAdminEmail(account)) {
 					AccountManager.CreateMemberAccount(account);
-					AccountRepository.LoggedInAccount = account;
-					view = View("MemberHome", new MemberHomeViewModel());
+					this.LoginUser(account);
+					view = View("MemberHome", 
+							new MemberHomeViewModel {
+								UserAccount = this.GetUserAccount()
+							}
+						);
 				} else {
 					view = View(new CreateAccountViewModel("Email already in use"));
 				}

@@ -9,10 +9,14 @@
 
 <hr />
 
-@if (Model.CartContents.Count == 0) {
+@if (Model.CartContents.Count() == 0) {
 	<h1>Your cart is empty!</h1>
 } else {
-	<div class="text-center">
+
+
+
+
+	<div class="text-right">
 		<form asp-action="Checkout" method="post" onsubmit="checkout.disabled = true; checkout.value = 'Checking Out...'; return true;">
 			<input type="submit" name="checkout" class="btn btn-primary" value="Checkout!" />
 		</form>
@@ -54,4 +58,5 @@
 			}
 		}
 	</div>
+
 }

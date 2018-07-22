@@ -12,7 +12,9 @@
 <h2 id="welcome-message">Welcome, @AccountRepository.LoggedInAccount.FirstName @AccountRepository.LoggedInAccount.LastName!</h2>
 
 <!-- Mobile Content -->
-<div id="mobile-content">
+<div class="mobile-content">
+
+
     @if (AccountRepository.LoggedInAccount != null && Model.LoanedBooks.Count() > 0)
     {
         <h4><span id="loaned-books-title" class="bold underline">Your Checked Out Books:</span></h4>

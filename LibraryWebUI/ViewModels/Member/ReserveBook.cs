@@ -6,7 +6,7 @@ using CoreLibrary.Inventory;
 
 namespace LibraryWebUI.ViewModels.Member
 {
-    public class ReserveBookViewModel
+    public class ReserveBookViewModel : LoggedInViewModel
     {
 		public IBook Book { get; set; }
     }

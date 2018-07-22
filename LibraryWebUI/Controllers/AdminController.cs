@@ -15,41 +15,42 @@ using CoreLibrary.Accounts;
 
 namespace LibraryWebUI.Controllers
 {
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
 		[HttpGet]
         public IActionResult AdminLogin() {
             return View(new LoginViewModel());
 		}
 
-		[HttpPost]
-		public IActionResult AdminLogin(LoginModel loginInfo) {
-			IActionResult view;
-			AccountRepository adminRepo = new AccountRepository();
-			if (ModelState.IsValid) {
-				if (adminRepo.VerifyAdminLogin(loginInfo.Email, loginInfo.Password)) {
-					IAccount admin = SearchUtility.GetAccountByEmail(loginInfo.Email);
-					AccountRepository.LoggedInAccount = admin;
-					view = View("AdminHome", new AdminHomeViewModel());
-				} else {
-					view = View(new LoginViewModel {
-						LoginErrorInfo = new string[] { "Incorrect login information. Please try again" },
-						LoginInfo = new LoginModel { Email = loginInfo.Email }
-					});
-				}
-			} else {
-				view = View(new LoginViewModel());
-			}
+		//[HttpPost]
+		//public IActionResult AdminLogin(LoginModel loginInfo) {
+		//	IActionResult view;
+		//	AccountRepository adminRepo = new AccountRepository();
+		//	if (ModelState.IsValid) {
+		//		if (adminRepo.VerifyAdminLogin(loginInfo.Email, loginInfo.Password)) {
+		//			IAccount admin = SearchUtility.GetAccountByEmail(loginInfo.Email);
+		//			AccountRepository.LoggedInAccount = admin;
+		//			view = View("AdminHome", new AdminHomeViewModel());
+		//		} else {
+		//			view = View(new LoginViewModel {
+		//				LoginErrorInfo = new string[] { "Incorrect login information. Please try again" },
+		//				LoginInfo = new LoginModel { Email = loginInfo.Email }
+		//			});
+		//		}
+		//	} else {
+		//		view = View(new LoginViewModel());
+		//	}
 
-			return view;
-		}
+		//	return view;
+		//}
 
 		public IActionResult AdminHome() {
 			IActionResult view;
-			if (AccountRepository.LoggedInAccount == null) {
-				view = View("AdminLogin", new LoginViewModel());
-			} else {
+
+			if (this.GetUserAccount().Admin) {
 				view = View(new AdminHomeViewModel());
+			} else {
+				view = View("AdminLogin", new LoginViewModel());
 			}
 			return view;
 		}
